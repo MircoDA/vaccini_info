@@ -3,1657 +3,1001 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Campagna Vaccinale 2026 - Prevenzione e Cura</title>
-    
-    <!-- Google Fonts: Nunito/Montserrat per la massima leggibilità e Caveat per lo stile corsivo -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Montserrat:wght@600;700;800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
-    
-    <!-- FontAwesome per le icone -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+    <title>Valutazione Acquisto Immobile & Fattibilità Mutuo</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        forest: '#0d4a3e',      // Verde bosco scuro per titoli e testi ad alto contrasto
-                        sage: '#82b8a9',        // Verde salvia
-                        sageLight: '#f3f8f5',   // Sfondo box sinistro
-                        sky: '#76b9d0',         // Azzurro medio
-                        skyHeader: '#bce0fd',   // Azzurro intestazione box destro
-                        skyLight: '#eef7fc',    // Sfondo box destro
-                        pageBg: '#e4f3f9',      // Sfondo esterno azzurrino fresco
-                        skin: '#fce2d4',        // Carnagione chiara
-                    },
-                    fontFamily: {
-                        sans: ['Nunito', 'sans-serif'],
-                        heading: ['Montserrat', 'sans-serif'],
-                        cursive: ['Caveat', 'cursive'],
-                    }
-                }
-            }
-        }
-    </script>
-
+    <!-- Google Fonts: Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
     <style>
         body {
-            background: linear-gradient(135deg, #e0f2fe 0%, #e6f4f1 50%, #d8eef8 100%);
-            color: #1e293b;
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+            color: #0f172a;
         }
-
-        .poster-shadow {
-            box-shadow: 0 20px 50px rgba(13, 74, 62, 0.12), 0 4px 15px rgba(13, 74, 62, 0.06);
+        /* Personalizzazione Slider */
+        input[type="range"] {
+            -webkit-appearance: none;
+            appearance: none;
+            background: transparent;
+            cursor: pointer;
         }
-
-        /* Gradiente fedele all'intestazione sinistra della locandina */
-        .header-left-gradient {
-            background: linear-gradient(90deg, #5da9c4 0%, #8ac4b1 100%);
+        input[type="range"]::-webkit-slider-runnable-track {
+            background: #e2e8f0;
+            height: 0.5rem;
+            border-radius: 9999px;
         }
-
-        /* Gradiente fedele all'intestazione destra della locandina */
-        .header-right-gradient {
-            background: linear-gradient(180deg, #bce2f7 0%, #cce9f9 100%);
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            margin-top: -4px;
+            background-color: #2563eb;
+            height: 1.25rem;
+            width: 1.25rem;
+            border-radius: 9999px;
+            border: 2px solid #ffffff;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+            transition: transform 0.15s ease, background-color 0.15s ease;
         }
-
-        /* Animazioni personalizzate */
-        @keyframes floatSlow {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-6px); }
+        input[type="range"]::-webkit-slider-thumb:hover {
+            transform: scale(1.15);
+            background-color: #1d4ed8;
         }
-        .animate-float {
-            animation: floatSlow 4s ease-in-out infinite;
+        input[type="range"]::-moz-range-track {
+            background: #e2e8f0;
+            height: 0.5rem;
+            border-radius: 9999px;
         }
-
-        @keyframes pulseGlow {
-            0%, 100% { box-shadow: 0 0 0 0 rgba(13, 74, 62, 0.3); }
-            50% { box-shadow: 0 0 0 10px rgba(13, 74, 62, 0); }
+        input[type="range"]::-moz-range-thumb {
+            background-color: #2563eb;
+            height: 1.25rem;
+            width: 1.25rem;
+            border-radius: 9999px;
+            border: 2px solid #ffffff;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+            transition: transform 0.15s ease;
         }
-        .pulse-btn {
-            animation: pulseGlow 2s infinite;
+        /* Rimuove frecce standard dagli input number */
+        input[type=number]::-webkit-inner-spin-button, 
+        input[type=number]::-webkit-outer-spin-button { 
+            -webkit-appearance: none; 
+            margin: 0; 
         }
-
-        /* Stile cursore sul canvas del minigioco */
-        #vaccineCanvas {
-            touch-action: manipulation;
-            cursor: crosshair;
-        }
-
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #eef7fc;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #82b8a9;
-            border-radius: 4px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #0d4a3e;
+        input[type=number] {
+            -moz-appearance: textfield;
         }
     </style>
 </head>
-<body class="font-sans antialiased min-h-screen py-4 sm:py-8 px-2 sm:px-6 lg:px-8">
+<body class="min-h-screen pb-16">
 
-    <!-- Barra di navigazione rapida in alto -->
-    <nav class="max-w-5xl mx-auto mb-4 flex flex-wrap items-center justify-between gap-2 bg-white/80 backdrop-blur-md px-5 py-3 rounded-2xl shadow-sm border border-sky/20">
-        <div class="flex items-center gap-2 text-forest font-heading font-bold text-sm sm:text-base">
-            <i class="fas fa-shield-virus text-sky text-xl"></i>
-            <span>Campagna Vaccinale 2026</span>
+    <!-- Header -->
+    <header class="bg-gradient-to-r from-slate-900 via-blue-950 to-slate-900 text-white shadow-lg border-b border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+            <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                <div class="flex items-center gap-3">
+                    <div class="bg-blue-600/20 border border-blue-400/30 p-3 rounded-2xl text-blue-400">
+                        <i class="ph ph-house-line text-3xl"></i>
+                    </div>
+                    <div>
+                        <span class="text-xs font-semibold uppercase tracking-wider text-blue-400 bg-blue-950/80 px-2.5 py-0.5 rounded-full border border-blue-800">Strumento Decisionale</span>
+                        <h1 class="text-2xl sm:text-3xl font-bold tracking-tight mt-0.5">Simulatore Acquisto Casa & Mutuo</h1>
+                    </div>
+                </div>
+                <div class="flex items-center gap-3 self-start md:self-auto">
+                    <button id="btnReset" class="flex items-center gap-2 text-xs sm:text-sm font-medium bg-slate-800 hover:bg-slate-700 text-slate-200 px-4 py-2.5 rounded-xl border border-slate-700 transition shadow-sm">
+                        <i class="ph ph-arrow-counter-clockwise text-base"></i>
+                        Ripristina Valori Medi
+                    </button>
+                </div>
+            </div>
         </div>
-        <div class="flex items-center gap-2 sm:gap-3 text-xs sm:text-sm font-bold">
-            <a href="#info-section" class="px-3 py-1.5 rounded-xl text-forest hover:bg-skyLight transition">📅 Date e Orari</a>
-            <a href="#educational-section" class="px-3 py-1.5 rounded-xl text-forest hover:bg-skyLight transition">🔬 Come Funziona</a>
-            <a href="#minigame-section" class="px-3.5 py-1.5 rounded-xl bg-forest text-white hover:bg-opacity-90 transition flex items-center gap-1.5 shadow-sm">
-                <i class="fas fa-gamepad"></i> Minigioco
-            </a>
-        </div>
-    </nav>
+    </header>
 
-    <!-- CONTENITORE PRINCIPALE DELLA LOCANDINA -->
-    <main class="max-w-5xl mx-auto bg-gradient-to-b from-[#f2f9fd] via-white to-[#f2f9fd] rounded-3xl poster-shadow overflow-hidden border-[6px] border-[#8cc5e3]/50 relative">
-
-        <!-- ==========================================
-             1. SEZIONE SUPERIORE (HERO / LOCANDINA)
-             ========================================== -->
-        <header class="relative pt-8 pb-6 px-6 sm:px-12 md:pt-12 md:pb-8 overflow-hidden">
-            <!-- Sfondo decorativo azzurro morbido in alto a destra -->
-            <div class="absolute top-4 right-4 w-72 h-72 sm:w-96 sm:h-96 bg-[#d2ebf7] rounded-full opacity-70 -z-0 blur-xl pointer-events-none"></div>
-
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative z-10">
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+            
+            <!-- COLONNA SINISTRA: INPUT PARAMETRI (5/12 su Desktop) -->
+            <div class="lg:col-span-5 space-y-6">
                 
-                <!-- Colonna Sinistra: Titoli e Slogan -->
-                <div class="lg:col-span-7 text-left">
-                    <div class="flex items-stretch gap-4">
-                        <!-- Linea verticale decorativa fedele all'immagine -->
-                        <div class="flex flex-col items-center pt-1">
-                            <div class="w-1 bg-[#4892a8] flex-grow rounded-full"></div>
-                            <div class="w-2 h-2 rounded-full bg-[#68a391] mt-2"></div>
-                            <div class="w-2 h-2 rounded-full bg-[#68a391] mt-1.5"></div>
-                            <div class="w-2 h-2 rounded-full bg-[#68a391] mt-1.5"></div>
-                        </div>
+                <!-- Sezione 1: Valore Immobile e Anticipo -->
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-200/80 p-6 space-y-6">
+                    <div class="flex items-center gap-2.5 border-b border-slate-100 pb-4">
+                        <i class="ph-fill ph-buildings text-xl text-blue-600"></i>
+                        <h2 class="text-lg font-bold text-slate-800">1. Immobile e Anticipo</h2>
+                    </div>
 
-                        <div>
-                            <p class="font-heading text-2xl sm:text-3xl md:text-4xl tracking-[0.22em] text-forest font-semibold uppercase mb-0.5">
-                                CAMPAGNA
-                            </p>
-                            <h1 class="font-heading text-5xl sm:text-6xl md:text-7xl font-extrabold text-forest tracking-tight leading-none mb-4">
-                                VACCINALE
-                            </h1>
-                            
-                            <div class="relative inline-block mb-5">
-                                <p class="font-cursive text-3xl sm:text-4xl md:text-5xl text-forest leading-[1.15] transform -rotate-2">
-                                    Proteggi te stesso,<br>
-                                    proteggi chi ti sta vicino!
-                                </p>
-                                <!-- Sottolineatura curva verde salvia -->
-                                <svg class="w-56 sm:w-72 h-4 mt-1 ml-12 text-[#8cb99c]" viewBox="0 0 200 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M2 10C65 3 135 2 198 4" stroke="currentColor" stroke-width="3.5" stroke-linecap="round"/>
-                                </svg>
+                    <!-- Prezzo Immobile -->
+                    <div class="space-y-2">
+                        <div class="flex justify-between items-center">
+                            <label for="numPrezzo" class="text-sm font-semibold text-slate-700">Prezzo dell'Immobile</label>
+                            <div class="relative flex items-center">
+                                <span class="absolute left-3 text-slate-400 font-medium text-sm">€</span>
+                                <input type="number" id="numPrezzo" value="200000" step="1000" min="20000" max="2000000"
+                                    class="w-36 pl-7 pr-3 py-1.5 text-right font-bold text-slate-900 bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none text-sm transition">
                             </div>
+                        </div>
+                        <input type="range" id="rngPrezzo" min="30000" max="800000" step="5000" value="200000" class="w-full">
+                        <div class="flex justify-between text-[11px] text-slate-400 font-medium">
+                            <span>30.000 €</span>
+                            <span>400.000 €</span>
+                            <span>800.000 €</span>
+                        </div>
+                    </div>
 
-                            <div class="mt-1 flex items-center gap-3">
-                                <p class="text-lg sm:text-xl md:text-2xl text-forest leading-snug">
-                                    È il momento di pensare<br>
-                                    alla <strong class="font-extrabold">prevenzione!</strong>
-                                </p>
-                                <!-- Piccolo decoro foglia/gemma al posto del cuore -->
-                                <svg class="w-7 h-7 text-[#77b59e] self-end mb-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M12 22c4.97 0 9-4.03 9-9-4.97 0-9 4.03-9 9z"/>
-                                    <path d="M12 22c-4.97 0-9-4.03-9-9 4.97 0 9 4.03 9 9z"/>
-                                    <path d="M12 22V10"/>
-                                </svg>
+                    <!-- Anticipo -->
+                    <div class="space-y-2 pt-2 border-t border-slate-100">
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <label for="numAnticipo" class="text-sm font-semibold text-slate-700 block">Anticipo Disponibile</label>
+                                <span id="badgeAnticipoPerc" class="inline-block text-xs font-semibold text-blue-700 bg-blue-50 px-2 py-0.5 rounded-md border border-blue-200 mt-0.5">
+                                    20.0% del prezzo
+                                </span>
+                            </div>
+                            <div class="relative flex items-center">
+                                <span class="absolute left-3 text-slate-400 font-medium text-sm">€</span>
+                                <input type="number" id="numAnticipo" value="40000" step="1000" min="0" max="2000000"
+                                    class="w-36 pl-7 pr-3 py-1.5 text-right font-bold text-slate-900 bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none text-sm transition">
+                            </div>
+                        </div>
+                        <input type="range" id="rngAnticipo" min="0" max="200000" step="1000" value="40000" class="w-full">
+                        <div class="flex justify-between items-center text-[11px] text-slate-500 pt-1">
+                            <span>Scelta rapida:</span>
+                            <div class="flex gap-1.5">
+                                <button type="button" onclick="setAnticipoPerc(10)" class="px-2 py-0.5 bg-slate-100 hover:bg-blue-50 hover:text-blue-600 rounded font-medium transition border border-slate-200">10%</button>
+                                <button type="button" onclick="setAnticipoPerc(20)" class="px-2 py-0.5 bg-blue-50 text-blue-700 hover:bg-blue-100 rounded font-semibold transition border border-blue-200">20% (Soglia standard)</button>
+                                <button type="button" onclick="setAnticipoPerc(30)" class="px-2 py-0.5 bg-slate-100 hover:bg-blue-50 hover:text-blue-600 rounded font-medium transition border border-slate-200">30%</button>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Colonna Destra: Illustrazione SVG (Dottoressa, Signora Anziana, Bambino - Caucasici) -->
-                <div class="lg:col-span-5 flex justify-center">
-                    <div class="w-full max-w-[340px] sm:max-w-[390px] relative">
-                        <svg viewBox="0 0 380 340" class="w-full h-auto drop-shadow-md" xmlns="http://www.w3.org/2000/svg">
-                            <!-- Sagoma di sfondo azzurro pastello -->
-                            <path d="M40 240 C20 170 60 90 130 80 C180 70 220 20 280 40 C340 60 365 140 355 220 C345 290 310 330 200 330 C90 330 55 295 40 240 Z" fill="#cde8f6" />
-                            <path d="M85 260 C70 190 110 110 175 100 C235 90 270 50 320 75 C360 95 365 180 350 250 C335 315 280 330 190 330 Z" fill="#def1fa" />
+                <!-- Sezione 2: Arredo e Costi Accessori -->
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-200/80 p-6 space-y-6">
+                    <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                        <div class="flex items-center gap-2.5">
+                            <i class="ph-fill ph-couch text-xl text-indigo-600"></i>
+                            <h2 class="text-lg font-bold text-slate-800">2. Arredo & Spese Accessorie</h2>
+                        </div>
+                        <span class="text-xs font-medium text-slate-400">Pagabili in liquidità</span>
+                    </div>
 
-                            <!-- ==========================================
-                                 1. DOTTORESSA (Destra - Capelli neri, occhiali, camice bianco)
-                                 ========================================== -->
-                            <g id="doctor">
-                                <!-- Capelli neri dietro -->
-                                <path d="M245 70 C230 70 225 110 220 140 C215 165 230 185 250 185 L325 185 C345 185 350 155 340 130 C330 105 335 75 310 60 C290 45 260 50 245 70 Z" fill="#132226"/>
-                                
-                                <!-- Collo e Maglia Azzurra sotto il camice -->
-                                <path d="M250 148 L315 148 L315 320 L250 320 Z" fill="#5aa9cf"/>
-                                <path d="M268 122 L292 122 L294 155 L266 155 Z" fill="#fbd7c2"/>
-                                <!-- Ombra collo -->
-                                <path d="M268 130 Q280 142 292 130 L292 122 L268 122 Z" fill="#eab89d"/>
+                    <!-- Budget Arredo -->
+                    <div class="space-y-2">
+                        <div class="flex justify-between items-center">
+                            <label for="numArredo" class="text-sm font-semibold text-slate-700">Budget Arredo / Lavori</label>
+                            <div class="relative flex items-center">
+                                <span class="absolute left-3 text-slate-400 font-medium text-sm">€</span>
+                                <input type="number" id="numArredo" value="15000" step="500" min="0" max="500000"
+                                    class="w-36 pl-7 pr-3 py-1.5 text-right font-bold text-slate-900 bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none text-sm transition">
+                            </div>
+                        </div>
+                        <input type="range" id="rngArredo" min="0" max="80000" step="1000" value="15000" class="w-full">
+                    </div>
 
-                                <!-- Camice Bianco -->
-                                <path d="M232 160 C238 148 252 145 266 145 L278 215 L278 330 L220 330 L225 190 Z" fill="#ffffff" stroke="#1e293b" stroke-width="2"/>
-                                <path d="M332 160 C326 148 312 145 294 145 L282 215 L282 330 L345 330 L340 190 Z" fill="#ffffff" stroke="#1e293b" stroke-width="2"/>
-                                <!-- Rever del camice -->
-                                <path d="M266 145 L252 180 L265 186 L258 205 L278 220" fill="none" stroke="#1e293b" stroke-width="2" stroke-linejoin="round"/>
-                                <path d="M294 145 L308 180 L295 186 L302 205 L282 220" fill="none" stroke="#1e293b" stroke-width="2" stroke-linejoin="round"/>
+                    <!-- Spese di Agenzia -->
+                    <div class="space-y-2 pt-3 border-t border-slate-100">
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <label for="numAgenzia" class="text-sm font-semibold text-slate-700 block">Agenzia Immobiliare</label>
+                                <span id="badgeAgenziaPerc" class="text-xs text-slate-500">Circa il 3.0% del prezzo</span>
+                            </div>
+                            <div class="relative flex items-center">
+                                <span class="absolute left-3 text-slate-400 font-medium text-sm">€</span>
+                                <input type="number" id="numAgenzia" value="6000" step="250" min="0" max="200000"
+                                    class="w-36 pl-7 pr-3 py-1.5 text-right font-bold text-slate-900 bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none text-sm transition">
+                            </div>
+                        </div>
+                        <div class="flex justify-between items-center text-[11px] text-slate-500 pt-1">
+                            <span>Calcola % sul prezzo:</span>
+                            <div class="flex gap-1.5">
+                                <button type="button" onclick="setAgenziaPerc(0)" class="px-2 py-0.5 bg-slate-100 hover:bg-slate-200 rounded font-medium transition border border-slate-200">0% (No Agenzia)</button>
+                                <button type="button" onclick="setAgenziaPerc(3)" class="px-2 py-0.5 bg-slate-100 hover:bg-blue-50 hover:text-blue-600 rounded font-medium transition border border-slate-200">3%</button>
+                                <button type="button" onclick="setAgenziaPerc(4)" class="px-2 py-0.5 bg-slate-100 hover:bg-blue-50 hover:text-blue-600 rounded font-medium transition border border-slate-200">4%</button>
+                                <button type="button" onclick="setAgenziaPerc(4.88)" class="px-2 py-0.5 bg-slate-100 hover:bg-blue-50 hover:text-blue-600 rounded font-medium transition border border-slate-200" title="4% + IVA 22%">4% + IVA</button>
+                            </div>
+                        </div>
+                    </div>
 
-                                <!-- Viso Dottoressa (Carnagione chiara caucasica) -->
-                                <path d="M254 88 C254 66 298 66 300 88 C302 114 290 132 276 132 C262 132 253 114 254 88 Z" fill="#fbd7c2"/>
-                                <!-- Orecchio destro -->
-                                <circle cx="302" cy="100" r="7" fill="#fbd7c2"/>
-                                <circle cx="302" cy="100" r="3" fill="#e5af93"/>
-                                <!-- Guance rosate -->
-                                <circle cx="261" cy="106" r="5" fill="#f3a694" opacity="0.5"/>
-                                <circle cx="288" cy="105" r="5" fill="#f3a694" opacity="0.5"/>
+                    <!-- Spese Notarili e Imposte -->
+                    <div class="space-y-2 pt-3 border-t border-slate-100">
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <label for="numNotaio" class="text-sm font-semibold text-slate-700 block">Notaio, Imposte e Istruttoria</label>
+                                <span class="text-xs text-slate-400">Rogito + Atto di mutuo + Tasse</span>
+                            </div>
+                            <div class="relative flex items-center">
+                                <span class="absolute left-3 text-slate-400 font-medium text-sm">€</span>
+                                <input type="number" id="numNotaio" value="5500" step="250" min="0" max="200000"
+                                    class="w-36 pl-7 pr-3 py-1.5 text-right font-bold text-slate-900 bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none text-sm transition">
+                            </div>
+                        </div>
+                        <input type="range" id="rngNotaio" min="1500" max="25000" step="250" value="5500" class="w-full">
+                    </div>
+                </div>
 
-                                <!-- Occhiali rotondi -->
-                                <g stroke="#1e293b" stroke-width="2.2" fill="none">
-                                    <circle cx="264" cy="96" r="8" fill="#ffffff" fill-opacity="0.25"/>
-                                    <circle cx="284" cy="95" r="8" fill="#ffffff" fill-opacity="0.25"/>
-                                    <path d="M272 95 Q274 93 276 95"/>
-                                    <path d="M292 94 L301 93"/>
-                                </g>
-                                <!-- Occhi e Sopracciglia -->
-                                <circle cx="264" cy="96" r="2.2" fill="#1e293b"/>
-                                <circle cx="284" cy="95" r="2.2" fill="#1e293b"/>
-                                <path d="M258 85 Q264 82 269 85" stroke="#132226" stroke-width="2" fill="none" stroke-linecap="round"/>
-                                <path d="M279 84 Q285 81 290 84" stroke="#132226" stroke-width="2" fill="none" stroke-linecap="round"/>
-                                <!-- Naso e Sorriso -->
-                                <path d="M273 97 L271 105 L275 106" stroke="#d99b7e" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M268 113 Q275 119 283 112" stroke="#1e293b" stroke-width="2" fill="none" stroke-linecap="round"/>
-                                <path d="M270 114 Q275 121 281 113 Z" fill="#ffffff"/>
+                <!-- Sezione 3: Reddito e Parametri Mutuo -->
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-200/80 p-6 space-y-6">
+                    <div class="flex items-center gap-2.5 border-b border-slate-100 pb-4">
+                        <i class="ph-fill ph-bank text-xl text-emerald-600"></i>
+                        <h2 class="text-lg font-bold text-slate-800">3. Reddito e Condizioni Mutuo</h2>
+                    </div>
 
-                                <!-- Frangia capelli neri -->
-                                <path d="M250 92 C250 72 268 65 280 72 C290 78 302 88 305 92 C306 70 290 55 270 58 C252 60 246 76 250 92 Z" fill="#132226"/>
-                            </g>
+                    <!-- Stipendio / Reddito Netto Mensile -->
+                    <div class="space-y-2">
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <label for="numReddito" class="text-sm font-semibold text-slate-700 block">Reddito Netto Mensile</label>
+                                <span class="text-xs text-slate-400">Totale nucleo / garanti inclusi</span>
+                            </div>
+                            <div class="relative flex items-center">
+                                <span class="absolute left-3 text-slate-400 font-medium text-sm">€</span>
+                                <input type="number" id="numReddito" value="2200" step="50" min="500" max="50000"
+                                    class="w-36 pl-7 pr-3 py-1.5 text-right font-bold text-emerald-800 bg-emerald-50/60 border border-emerald-300 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none text-sm transition">
+                            </div>
+                        </div>
+                        <input type="range" id="rngReddito" min="800" max="8000" step="50" value="2200" class="w-full">
+                    </div>
 
-                            <!-- ==========================================
-                                 2. SIGNORA ANZIANA (Sinistra - Capelli grigi, cardigan verde)
-                                 ========================================== -->
-                            <g id="grandmother">
-                                <!-- Chignon grigio dietro -->
-                                <circle cx="132" cy="115" r="14" fill="#a8b3b8"/>
-                                <circle cx="130" cy="115" r="10" fill="#94a1a7"/>
+                    <!-- Durata del Mutuo (Anni) -->
+                    <div class="space-y-2 pt-3 border-t border-slate-100">
+                        <div class="flex justify-between items-center">
+                            <label for="numAnni" class="text-sm font-semibold text-slate-700">Durata del Mutuo</label>
+                            <div class="flex items-center gap-1.5">
+                                <input type="number" id="numAnni" value="25" step="1" min="5" max="35"
+                                    class="w-20 px-3 py-1.5 text-center font-bold text-slate-900 bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none text-sm">
+                                <span class="text-sm font-medium text-slate-600">anni</span>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-5 gap-2 pt-1">
+                            <button type="button" onclick="setAnni(15)" class="btn-anni py-1.5 text-xs font-semibold rounded-xl border border-slate-200 bg-slate-50 hover:bg-blue-50 text-slate-700 transition" data-anni="15">15 anni</button>
+                            <button type="button" onclick="setAnni(20)" class="btn-anni py-1.5 text-xs font-semibold rounded-xl border border-slate-200 bg-slate-50 hover:bg-blue-50 text-slate-700 transition" data-anni="20">20 anni</button>
+                            <button type="button" onclick="setAnni(25)" class="btn-anni py-1.5 text-xs font-semibold rounded-xl border border-blue-600 bg-blue-600 text-white shadow-sm transition" data-anni="25">25 anni</button>
+                            <button type="button" onclick="setAnni(30)" class="btn-anni py-1.5 text-xs font-semibold rounded-xl border border-slate-200 bg-slate-50 hover:bg-blue-50 text-slate-700 transition" data-anni="30">30 anni</button>
+                            <button type="button" onclick="setAnni(35)" class="btn-anni py-1.5 text-xs font-semibold rounded-xl border border-slate-200 bg-slate-50 hover:bg-blue-50 text-slate-700 transition" data-anni="35">35 anni</button>
+                        </div>
+                    </div>
 
-                                <!-- Corpo: Cardigan Verde Salvia -->
-                                <path d="M90 330 L98 205 C102 170 125 152 152 152 L192 152 C218 152 238 175 244 215 L250 330 Z" fill="#68b096"/>
-                                <!-- Maglia interna più scura -->
-                                <path d="M150 158 L194 158 L198 330 L146 330 Z" fill="#3a8b78"/>
-                                <!-- Colletto bianco -->
-                                <path d="M152 150 L172 174 L160 182 L144 156 Z" fill="#ffffff"/>
-                                <path d="M190 150 L172 174 L184 182 L196 156 Z" fill="#ffffff"/>
-
-                                <!-- Collo -->
-                                <path d="M157 138 L185 138 L187 160 L155 160 Z" fill="#fbd7c2"/>
-
-                                <!-- Viso Signora Anziana (Carnagione chiara caucasica) -->
-                                <path d="M144 102 C144 74 202 74 202 102 C202 134 189 150 173 150 C157 150 144 134 144 102 Z" fill="#fbd7c2"/>
-                                <!-- Orecchio -->
-                                <circle cx="143" cy="116" r="7" fill="#fbd7c2"/>
-                                <circle cx="143" cy="116" r="3" fill="#e5af93"/>
-
-                                <!-- Capelli Grigi -->
-                                <path d="M142 110 C138 82 158 68 176 70 C196 72 208 86 203 110 C200 94 188 86 174 86 C158 86 146 95 142 110 Z" fill="#b4bec2"/>
-
-                                <!-- Lineamenti dolci e rughe d'espressione -->
-                                <path d="M157 99 Q164 96 170 99" stroke="#7c878c" stroke-width="2.2" fill="none" stroke-linecap="round"/>
-                                <path d="M180 99 Q187 96 193 99" stroke="#7c878c" stroke-width="2.2" fill="none" stroke-linecap="round"/>
-                                <!-- Occhi socchiusi sorridenti -->
-                                <path d="M159 108 Q164 104 169 108" stroke="#1e293b" stroke-width="2" fill="none" stroke-linecap="round"/>
-                                <path d="M181 108 Q186 104 191 108" stroke="#1e293b" stroke-width="2" fill="none" stroke-linecap="round"/>
-                                <!-- Rughette leggere -->
-                                <path d="M154 107 L151 105 M195 107 L198 105" stroke="#d99b7e" stroke-width="1.3" stroke-linecap="round"/>
-                                <path d="M165 92 Q175 94 185 92" stroke="#e2aa90" stroke-width="1.3" fill="none" stroke-linecap="round"/>
-                                <!-- Guance -->
-                                <circle cx="157" cy="118" r="6" fill="#f3a694" opacity="0.55"/>
-                                <circle cx="192" cy="118" r="6" fill="#f3a694" opacity="0.55"/>
-                                <!-- Naso e Bocca -->
-                                <path d="M175 106 L177 117 L172 119" stroke="#d99b7e" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M167 128 Q175 134 183 128" stroke="#1e293b" stroke-width="2" fill="none" stroke-linecap="round"/>
-                                <path d="M160 124 Q157 129 161 133" stroke="#d99b7e" stroke-width="1.4" fill="none" stroke-linecap="round"/>
-                                <path d="M189 124 Q192 129 188 133" stroke="#d99b7e" stroke-width="1.4" fill="none" stroke-linecap="round"/>
-                            </g>
-
-                            <!-- ==========================================
-                                 3. BAMBINO (Centro davanti - Capelli neri, maglia azzurro-petrolio)
-                                 ========================================== -->
-                            <g id="child">
-                                <!-- Corpo Maglia -->
-                                <path d="M192 330 L198 250 C200 232 214 224 232 224 L256 224 C274 224 286 235 289 255 L295 330 Z" fill="#177e96"/>
-                                <!-- Maniche -->
-                                <path d="M198 245 L184 282 L204 288 L210 255 Z" fill="#238ea6"/>
-                                <path d="M288 245 L300 282 L280 288 L276 255 Z" fill="#238ea6"/>
-                                <!-- Braccia -->
-                                <path d="M187 283 L184 330 L200 330 L202 287 Z" fill="#fbd7c2"/>
-                                <path d="M282 286 L284 330 L299 330 L297 283 Z" fill="#fbd7c2"/>
-
-                                <!-- Collo -->
-                                <path d="M232 208 L254 208 L256 230 L230 230 Z" fill="#fbd7c2"/>
-
-                                <!-- Viso Bambino (Carnagione chiara caucasica) -->
-                                <path d="M216 178 C216 154 268 154 268 178 C268 204 256 216 242 216 C228 216 216 204 216 178 Z" fill="#fbd7c2"/>
-                                <!-- Orecchie -->
-                                <circle cx="215" cy="188" r="6" fill="#fbd7c2"/>
-                                <circle cx="269" cy="188" r="6" fill="#fbd7c2"/>
-
-                                <!-- Capelli Neri Bambino -->
-                                <path d="M214 182 C210 158 225 142 245 144 C265 145 276 160 270 184 C266 172 258 164 246 166 C234 168 222 172 214 182 Z" fill="#132226"/>
-                                <path d="M234 145 Q242 136 252 144" fill="#132226"/>
-
-                                <!-- Occhi, Naso e Sorriso -->
-                                <circle cx="231" cy="184" r="2.4" fill="#1e293b"/>
-                                <circle cx="251" cy="183" r="2.4" fill="#1e293b"/>
-                                <path d="M225 175 Q231 172 236 175" stroke="#132226" stroke-width="2" fill="none" stroke-linecap="round"/>
-                                <path d="M246 174 Q252 171 257 174" stroke="#132226" stroke-width="2" fill="none" stroke-linecap="round"/>
-                                <circle cx="225" cy="192" r="4.5" fill="#f3a694" opacity="0.55"/>
-                                <circle cx="257" cy="191" r="4.5" fill="#f3a694" opacity="0.55"/>
-                                <path d="M241 184 L239 191 L243 192" stroke="#d99b7e" stroke-width="1.8" fill="none" stroke-linecap="round"/>
-                                <path d="M235 199 Q242 204 248 198" stroke="#1e293b" stroke-width="2" fill="none" stroke-linecap="round"/>
-
-                                <!-- Mani protettive sulle spalle del bambino (Signora e Dottoressa) -->
-                                <!-- Braccio della signora che abbraccia -->
-                                <path d="M102 200 C95 250 115 275 188 268 L188 248 C135 250 125 232 125 200 Z" fill="#68b096" stroke="#498f78" stroke-width="1.5"/>
-                                <!-- Mano della signora -->
-                                <path d="M186 249 L208 249 C212 249 212 254 208 254 L196 254 L210 256 C214 256 214 261 210 261 L196 261 L208 263 C211 263 211 268 207 268 L186 267 Z" fill="#fbd7c2" stroke="#d99b7e" stroke-width="1.2"/>
-
-                                <!-- Mano della dottoressa sulla spalla destra del bambino -->
-                                <path d="M342 185 C352 225 340 255 292 266 L288 248 C318 240 322 220 318 190 Z" fill="#ffffff" stroke="#1e293b" stroke-width="2"/>
-                                <path d="M292 248 L272 252 C268 253 269 258 273 257 L283 256 L271 259 C267 260 268 265 272 264 L283 262 L274 265 C270 266 271 271 275 270 L294 265 Z" fill="#fbd7c2" stroke="#d99b7e" stroke-width="1.2"/>
-                            </g>
-
-                            <!-- Linea di base -->
-                            <line x1="65" y1="330" x2="355" y2="330" stroke="#9bc7dd" stroke-width="3" stroke-linecap="round"/>
-                        </svg>
+                    <!-- Tasso Fisso Annuo (TAN) -->
+                    <div class="space-y-2 pt-3 border-t border-slate-100">
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <label for="numTasso" class="text-sm font-semibold text-slate-700 block">Tasso Fisso Annuo (TAN)</label>
+                                <span class="text-xs text-slate-400">Media mercato attuale ~3,10% - 3,50%</span>
+                            </div>
+                            <div class="relative flex items-center">
+                                <input type="number" id="numTasso" value="3.20" step="0.05" min="0.5" max="10"
+                                    class="w-28 pl-3 pr-7 py-1.5 text-right font-bold text-slate-900 bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none text-sm">
+                                <span class="absolute right-3 text-slate-500 font-semibold text-sm">%</span>
+                            </div>
+                        </div>
+                        <input type="range" id="rngTasso" min="1.0" max="6.5" step="0.05" value="3.20" class="w-full">
+                        <div class="flex justify-between items-center text-[11px] text-slate-500 pt-1">
+                            <span>Tassi di riferimento:</span>
+                            <div class="flex gap-1.5">
+                                <button type="button" onclick="setTasso(2.75)" class="px-2 py-0.5 bg-emerald-50 text-emerald-700 hover:bg-emerald-100 rounded font-medium transition border border-emerald-200">2,75% (Green)</button>
+                                <button type="button" onclick="setTasso(3.20)" class="px-2 py-0.5 bg-blue-50 text-blue-700 hover:bg-blue-100 rounded font-semibold transition border border-blue-200">3,20% (Mercato)</button>
+                                <button type="button" onclick="setTasso(3.80)" class="px-2 py-0.5 bg-amber-50 text-amber-700 hover:bg-amber-100 rounded font-medium transition border border-amber-200">3,80% (Prudenziale)</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
             </div>
-        </header>
 
-        <!-- ==========================================
-             2. SEZIONE INFORMATIVA (2 BOX AFFIANCATI)
-             ========================================== -->
-        <section id="info-section" class="px-5 sm:px-10 md:px-12 py-4 grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
-            
-            <!-- BOX SINISTRO: LA VACCINAZIONE È RACCOMANDATA -->
-            <div class="relative flex flex-col pt-6">
-                <!-- Badge Intestazione Sovrapposto con Scudo -->
-                <div class="relative z-10 flex items-center ml-2 sm:ml-4 mb-[-28px]">
-                    <!-- Cerchio Scudo -->
-                    <div class="w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-gradient-to-tr from-[#3d94b6] to-[#7bc2ac] p-1.5 shadow-md flex-shrink-0 flex items-center justify-center border-4 border-white">
-                        <svg class="w-11 h-11 sm:w-12 sm:h-12 text-white" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M12 2L4 5v6.09c0 5.05 3.41 9.76 8 10.91 4.59-1.15 8-5.86 8-10.91V5l-8-3zm0 2.18l6 2.25v4.66c0 4.13-2.8 7.99-6 9.03V4.18z"/>
-                        </svg>
-                    </div>
-                    <!-- Banner Titolo Verde Scuro (#0d4a3e) su sfondo sfumato acquamarina -->
-                    <div class="header-left-gradient py-3.5 pl-6 pr-6 sm:pr-8 -ml-5 rounded-r-3xl shadow-sm flex-grow border-y border-r border-white/60">
-                        <h2 class="font-heading text-lg sm:text-xl md:text-2xl font-extrabold text-forest leading-tight tracking-wide uppercase">
-                            LA VACCINAZIONE È<br>
-                            <span class="text-2xl sm:text-3xl font-black">RACCOMANDATA</span>
-                        </h2>
+            <!-- COLONNA DESTRA: RISULTATI E CRITICITÀ (7/12 su Desktop) -->
+            <div class="lg:col-span-7 space-y-6">
+
+                <!--VERDETTO GENERALE DI FATTIBILITÀ (BANNER DINAMICO) -->
+                <div id="bannerVerdetto" class="rounded-2xl p-6 border-2 transition-all duration-300 shadow-sm bg-emerald-50 border-emerald-300">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                        <div class="flex items-start gap-4">
+                            <div id="iconaVerdettoBox" class="p-3.5 rounded-2xl bg-emerald-600 text-white shrink-0 shadow-md">
+                                <i id="iconaVerdetto" class="ph-fill ph-check-circle text-3xl"></i>
+                            </div>
+                            <div>
+                                <div class="flex items-center gap-2">
+                                    <span id="tagVerdetto" class="text-xs font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-emerald-200 text-emerald-900">Operazione Sostenibile</span>
+                                </div>
+                                <h2 id="titoloVerdetto" class="text-xl sm:text-2xl font-extrabold text-slate-900 mt-1">Mutuo in linea con gli standard bancari</h2>
+                                <p id="descVerdetto" class="text-sm text-slate-700 mt-1 leading-relaxed">
+                                    Sia la rata mensile rispetto al tuo stipendio sia l'anticipo versato rispettano pienamente i criteri di concessione delle banche italiane.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="bg-white/90 backdrop-blur px-5 py-3.5 rounded-2xl border border-slate-200/80 text-center shrink-0 shadow-sm">
+                            <span class="text-xs font-semibold text-slate-500 uppercase block">Rata Mensile Stimata</span>
+                            <span id="valRataPrincipale" class="text-3xl font-black text-slate-900">775 €</span>
+                            <span id="valTassoAnniLabel" class="text-[11px] font-medium text-slate-500 block mt-0.5">Tasso Fisso 3,20% • 25 anni</span>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Corpo del Box Sinistro -->
-                <div class="bg-sageLight border-[3px] border-[#3d8274] rounded-3xl pt-10 pb-6 px-5 sm:px-7 flex-grow flex flex-col justify-between shadow-sm">
-                    <div>
-                        <div class="flex items-center justify-between mb-3 ml-14 sm:ml-16">
-                            <p class="text-forest font-bold text-lg">per:</p>
-                            <span class="text-xs font-bold text-[#2b6cb0] bg-white px-2.5 py-1 rounded-full border border-sky/30 shadow-2xs">
-                                <i class="fas fa-hand-pointer mr-1"></i> Clicca una categoria per dettagli
-                            </span>
+                <!-- 4 CARD RIEPILOGO ECONOMICO -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    
+                    <!-- Card 1: Costo Totale Operazione -->
+                    <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm flex flex-col justify-between">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Costo Totale Operazione</span>
+                            <div class="p-2 bg-slate-100 text-slate-700 rounded-xl">
+                                <i class="ph-bold ph-calculator text-lg"></i>
+                            </div>
+                        </div>
+                        <div class="my-3">
+                            <div id="valCostoTotaleOp" class="text-2xl sm:text-3xl font-extrabold text-slate-900">226.500 €</div>
+                            <p class="text-xs text-slate-500 mt-1">Immobile + Arredo + Agenzia + Notaio</p>
+                        </div>
+                        <div class="pt-3 border-t border-slate-100 flex justify-between text-xs text-slate-600">
+                            <span>Incidenza spese extra:</span>
+                            <span id="valIncidenzaExtra" class="font-bold text-slate-800">+26.500 € (+13.3%)</span>
+                        </div>
+                    </div>
+
+                    <!-- Card 2: Liquidità Necessaria Subito (Da sottrarre al patrimonio) -->
+                    <div class="bg-gradient-to-br from-amber-50/70 to-orange-50/40 p-5 rounded-2xl border border-amber-200/80 shadow-sm flex flex-col justify-between">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-bold uppercase tracking-wider text-amber-800">Liquidità Necessaria Subito</span>
+                            <div class="p-2 bg-amber-100 text-amber-700 rounded-xl">
+                                <i class="ph-bold ph-wallet text-lg"></i>
+                            </div>
+                        </div>
+                        <div class="my-3">
+                            <div id="valLiquiditaSubito" class="text-2xl sm:text-3xl font-extrabold text-amber-950">66.500 €</div>
+                            <p class="text-xs text-amber-800/80 mt-1">Da avere sul conto corrente (non mutuabili)</p>
+                        </div>
+                        <div class="pt-3 border-t border-amber-200/60 flex justify-between text-xs text-amber-900">
+                            <span>Anticipo + Spese & Arredo:</span>
+                            <span id="valDettaglioLiquidita" class="font-bold">40.000 € + 26.500 €</span>
+                        </div>
+                    </div>
+
+                    <!-- Card 3: Importo del Mutuo (Finanziato) -->
+                    <div class="bg-gradient-to-br from-blue-50/70 to-indigo-50/40 p-5 rounded-2xl border border-blue-200/80 shadow-sm flex flex-col justify-between">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-bold uppercase tracking-wider text-blue-800">Importo Mutuo da Chiedere</span>
+                            <div class="p-2 bg-blue-100 text-blue-700 rounded-xl">
+                                <i class="ph-bold ph-bank text-lg"></i>
+                            </div>
+                        </div>
+                        <div class="my-3">
+                            <div id="valImportoMutuo" class="text-2xl sm:text-3xl font-extrabold text-blue-950">160.000 €</div>
+                            <p class="text-xs text-blue-800/80 mt-1">Prezzo Immobile meno l'Anticipo</p>
+                        </div>
+                        <div class="pt-3 border-t border-blue-200/60 flex justify-between text-xs text-blue-900">
+                            <span>Loan-to-Value (LTV):</span>
+                            <span id="valLtvCard" class="font-bold">80.0% del valore casa</span>
+                        </div>
+                    </div>
+
+                    <!-- Card 4: Costo Totale Interessi Mutuo -->
+                    <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm flex flex-col justify-between">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Interessi Passivi Totali</span>
+                            <div class="p-2 bg-slate-100 text-slate-700 rounded-xl">
+                                <i class="ph-bold ph-trend-up text-lg"></i>
+                            </div>
+                        </div>
+                        <div class="my-3">
+                            <div id="valInteressiTotali" class="text-2xl sm:text-3xl font-extrabold text-slate-900">72.604 €</div>
+                            <p id="valNumeroRate" class="text-xs text-slate-500 mt-1">Spalmati su 300 rate mensili</p>
+                        </div>
+                        <div class="pt-3 border-t border-slate-100 flex justify-between text-xs text-slate-600">
+                            <span>Totale rimborsato alla banca:</span>
+                            <span id="valTotaleRimborsato" class="font-bold text-slate-800">232.604 €</span>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- ANALISI DELLE CRITICITÀ BANCARIE (SEMAFORO RATA/REDDITO & LTV) -->
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-200/80 p-6 space-y-6">
+                    <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                        <div class="flex items-center gap-2.5">
+                            <i class="ph-fill ph-shield-warning text-xl text-blue-600"></i>
+                            <h3 class="text-lg font-bold text-slate-800">Analisi Criticità e Parametri di Legge / Bancari</h3>
+                        </div>
+                        <span class="text-xs font-medium text-slate-400">Criteri Istruttoria Italia</span>
+                    </div>
+
+                    <!-- INDICATORE 1: Rapporto Rata / Reddito (Sostenibilità Stipendio) -->
+                    <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-4">
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                            <div>
+                                <div class="flex items-center gap-2">
+                                    <span class="text-sm font-bold text-slate-800">1. Rapporto Rata / Stipendio Netto</span>
+                                    <span id="badgeStatoRata" class="text-xs font-bold px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-800 border border-amber-300">
+                                        Al Limite (35.2%)
+                                    </span>
+                                </div>
+                                <p class="text-xs text-slate-500 mt-0.5">Le banche italiane concedono mutui se la rata non supera il <strong>30% - 33%</strong> del reddito netto mensile.</p>
+                            </div>
+                            <div class="text-right shrink-0">
+                                <span id="valPercRataReddito" class="text-2xl font-black text-slate-900">35.2%</span>
+                                <span id="valRedditoResiduo" class="block text-xs text-slate-500">Restano 1.425 € / mese per vivere</span>
+                            </div>
                         </div>
 
-                        <!-- Lista Categorie Interattive -->
-                        <ul class="space-y-3" id="category-list">
-                            <!-- 1. Over 60 -->
-                            <li onclick="showCategoryDetail(0)" class="group cursor-pointer p-2 rounded-2xl hover:bg-white/90 transition-all duration-200 border border-transparent hover:border-sage/40 hover:shadow-xs">
-                                <div class="flex items-center gap-4">
-                                    <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-[#7bc0d4] text-forest flex items-center justify-center flex-shrink-0 shadow-xs group-hover:scale-105 transition">
-                                        <i class="fas fa-person-cane text-xl sm:text-2xl"></i>
-                                        <i class="fas fa-person-dress text-lg sm:text-xl -ml-1"></i>
-                                    </div>
-                                    <div class="flex-grow">
-                                        <p class="font-bold text-base sm:text-lg text-slate-800 group-hover:text-forest leading-snug">
-                                            Persone dai 60 anni in su
-                                        </p>
-                                    </div>
-                                    <i class="fas fa-chevron-down text-xs text-forest/50 group-hover:text-forest mr-2 transition-transform" id="cat-icon-0"></i>
-                                </div>
-                                <div id="cat-desc-0" class="hidden mt-2 ml-16 text-xs sm:text-sm text-forest bg-[#e3f2ed] p-3 rounded-xl border-l-4 border-forest">
-                                    Con l'età il sistema immunitario risponde più lentamente: il vaccino riduce drasticamente il rischio di complicanze respiratorie e ricoveri.
-                                </div>
-                            </li>
+                        <!-- Barra del Semaforo Rata/Reddito -->
+                        <div class="space-y-1.5">
+                            <div class="relative h-4 w-full rounded-full bg-slate-200 overflow-hidden flex">
+                                <!-- Zona Verde: 0 - 30% (su scala 0-60% equivale al 50% della barra) -->
+                                <div class="h-full bg-emerald-500/85" style="width: 50%;" title="Sostenibile: fino al 30%"></div>
+                                <!-- Zona Gialla: 30% - 35% (su scala 0-60% equivale all'8.33% della barra) -->
+                                <div class="h-full bg-amber-400/90" style="width: 8.33%;" title="Zona di attenzione: 30% - 35%"></div>
+                                <!-- Zona Rossa: > 35% (resto della barra) -->
+                                <div class="h-full bg-rose-500/85" style="width: 41.67%;" title="Critico: oltre il 35%"></div>
+                                
+                                <!-- Cursore Posizione Utente -->
+                                <div id="markerRataReddito" class="absolute top-0 bottom-0 w-1.5 bg-slate-950 shadow-md ring-2 ring-white transition-all duration-300" style="left: 50%;"></div>
+                            </div>
+                            <div class="flex justify-between text-[11px] font-semibold text-slate-500 px-0.5">
+                                <span class="text-emerald-700">0% • Ottimale</span>
+                                <span class="text-emerald-700">30% (Soglia Ideale)</span>
+                                <span class="text-amber-700">35% (Max Tollerato)</span>
+                                <span class="text-rose-700">60%+ (Rifiuto)</span>
+                            </div>
+                        </div>
 
-                            <!-- 2. Personale sanitario -->
-                            <li onclick="showCategoryDetail(1)" class="group cursor-pointer p-2 rounded-2xl hover:bg-white/90 transition-all duration-200 border border-transparent hover:border-sage/40 hover:shadow-xs">
-                                <div class="flex items-center gap-4">
-                                    <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-[#80b5a5] text-forest flex items-center justify-center flex-shrink-0 shadow-xs group-hover:scale-105 transition">
-                                        <i class="fas fa-plus text-2xl sm:text-3xl font-black"></i>
-                                    </div>
-                                    <div class="flex-grow">
-                                        <p class="font-bold text-base sm:text-lg text-slate-800 group-hover:text-forest">
-                                            Personale sanitario
-                                        </p>
-                                    </div>
-                                    <i class="fas fa-chevron-down text-xs text-forest/50 group-hover:text-forest mr-2 transition-transform" id="cat-icon-1"></i>
-                                </div>
-                                <div id="cat-desc-1" class="hidden mt-2 ml-16 text-xs sm:text-sm text-forest bg-[#e3f2ed] p-3 rounded-xl border-l-4 border-forest">
-                                    Fondamentale per proteggere chi lavora ogni giorno in prima linea e garantire la sicurezza dei pazienti più vulnerabili negli ambulatori e ospedali.
-                                </div>
-                            </li>
+                        <div id="msgAnalisiRata" class="text-xs sm:text-sm p-3.5 rounded-xl bg-white border border-slate-200 text-slate-700 leading-relaxed">
+                            <!-- Testo dinamico -->
+                        </div>
+                    </div>
 
-                            <!-- 3. Personale scolastico -->
-                            <li onclick="showCategoryDetail(2)" class="group cursor-pointer p-2 rounded-2xl hover:bg-white/90 transition-all duration-200 border border-transparent hover:border-sage/40 hover:shadow-xs">
-                                <div class="flex items-center gap-4">
-                                    <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-[#87bba2] text-forest flex items-center justify-center flex-shrink-0 shadow-xs group-hover:scale-105 transition">
-                                        <i class="fas fa-school text-xl sm:text-2xl"></i>
-                                    </div>
-                                    <div class="flex-grow">
-                                        <p class="font-bold text-base sm:text-lg text-slate-800 group-hover:text-forest">
-                                            Personale scolastico
-                                        </p>
-                                    </div>
-                                    <i class="fas fa-chevron-down text-xs text-forest/50 group-hover:text-forest mr-2 transition-transform" id="cat-icon-2"></i>
+                    <!-- INDICATORE 2: Loan-to-Value (LTV % - Rapporto Mutuo / Valore Casa) -->
+                    <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-4">
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                            <div>
+                                <div class="flex items-center gap-2">
+                                    <span class="text-sm font-bold text-slate-800">2. Rapporto Loan-to-Value (LTV)</span>
+                                    <span id="badgeStatoLtv" class="text-xs font-bold px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 border border-emerald-300">
+                                        Standard (80.0%)
+                                    </span>
                                 </div>
-                                <div id="cat-desc-2" class="hidden mt-2 ml-16 text-xs sm:text-sm text-forest bg-[#e3f2ed] p-3 rounded-xl border-l-4 border-forest">
-                                    Le aule sono luoghi ad alta socialità: vaccinarsi aiuta a mantenere la continuità didattica e riduce la circolazione dei virus tra le famiglie.
-                                </div>
-                            </li>
+                                <p class="text-xs text-slate-500 mt-0.5">Per legge (normativa fondiaria CICR), il limite standard del mutuo ipotecario è l'<strong>80%</strong> del valore dell'immobile.</p>
+                            </div>
+                            <div class="text-right shrink-0">
+                                <span id="valPercLtv" class="text-2xl font-black text-slate-900">80.0%</span>
+                                <span id="valAnticipoPercSub" class="block text-xs text-slate-500">Anticipo versato: 20.0%</span>
+                            </div>
+                        </div>
 
-                            <!-- 4. Caregiver -->
-                            <li onclick="showCategoryDetail(3)" class="group cursor-pointer p-2 rounded-2xl hover:bg-white/90 transition-all duration-200 border border-transparent hover:border-sage/40 hover:shadow-xs">
-                                <div class="flex items-center gap-4">
-                                    <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-[#76bcd0] text-forest flex items-center justify-center flex-shrink-0 shadow-xs group-hover:scale-105 transition">
-                                        <i class="fas fa-hands-holding-circle text-xl sm:text-2xl"></i>
-                                    </div>
-                                    <div class="flex-grow">
-                                        <p class="font-bold text-base sm:text-lg text-slate-800 group-hover:text-forest">
-                                            Caregiver
-                                        </p>
-                                    </div>
-                                    <i class="fas fa-chevron-down text-xs text-forest/50 group-hover:text-forest mr-2 transition-transform" id="cat-icon-3"></i>
-                                </div>
-                                <div id="cat-desc-3" class="hidden mt-2 ml-16 text-xs sm:text-sm text-forest bg-[#e3f2ed] p-3 rounded-xl border-l-4 border-forest">
-                                    Chi assiste familiari anziani, disabili o immunodepressi crea uno "scudo protettivo" fondamentale evitando di portare il virus in casa.
-                                </div>
-                            </li>
+                        <!-- Barra LTV -->
+                        <div class="space-y-1.5">
+                            <div class="relative h-4 w-full rounded-full bg-slate-200 overflow-hidden flex">
+                                <!-- Zona Ottimale <= 80% -->
+                                <div class="h-full bg-emerald-500/85" style="width: 80%;"></div>
+                                <!-- Zona Oltre 80% (80-100%) -->
+                                <div class="h-full bg-amber-500/90" style="width: 20%;"></div>
+                                <!-- Cursore LTV -->
+                                <div id="markerLtv" class="absolute top-0 bottom-0 w-1.5 bg-slate-950 shadow-md ring-2 ring-white transition-all duration-300" style="left: 80%;"></div>
+                            </div>
+                            <div class="flex justify-between text-[11px] font-semibold text-slate-500 px-0.5">
+                                <span class="text-emerald-700">0%</span>
+                                <span class="text-emerald-700">50% (Tassi Migliori)</span>
+                                <span class="text-emerald-800 font-bold">80% (Limite Standard Banca)</span>
+                                <span class="text-amber-700">100% (Garanzia Consap)</span>
+                            </div>
+                        </div>
 
-                            <!-- 5. Altre categorie -->
-                            <li onclick="showCategoryDetail(4)" class="group cursor-pointer p-2 rounded-2xl hover:bg-white/90 transition-all duration-200 border border-transparent hover:border-sage/40 hover:shadow-xs">
-                                <div class="flex items-center gap-4">
-                                    <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-[#87b89c] text-forest flex items-center justify-center flex-shrink-0 shadow-xs group-hover:scale-105 transition">
-                                        <i class="fas fa-users text-xl sm:text-2xl"></i>
-                                    </div>
-                                    <div class="flex-grow">
-                                        <p class="font-bold text-base sm:text-lg text-slate-800 group-hover:text-forest leading-tight">
-                                            Altre categorie aventi diritto
-                                        </p>
-                                        <p class="text-xs sm:text-sm text-slate-600">secondo le disposizioni vigenti</p>
-                                    </div>
-                                    <i class="fas fa-chevron-down text-xs text-forest/50 group-hover:text-forest mr-2 transition-transform" id="cat-icon-4"></i>
-                                </div>
-                                <div id="cat-desc-4" class="hidden mt-2 ml-16 text-xs sm:text-sm text-forest bg-[#e3f2ed] p-3 rounded-xl border-l-4 border-forest">
-                                    Include persone con patologie croniche (cardiache, respiratorie, diabete), donne in gravidanza, donatori di sangue e addetti a servizi pubblici di primario interesse.
-                                </div>
-                            </li>
+                        <div id="msgAnalisiLtv" class="text-xs sm:text-sm p-3.5 rounded-xl bg-white border border-slate-200 text-slate-700 leading-relaxed">
+                            <!-- Testo dinamico -->
+                        </div>
+                    </div>
+
+                    <!-- BOX CONSIGLI PRATICI PER RIENTRARE NEI PARAMETRI -->
+                    <div id="boxConsigli" class="rounded-2xl p-5 bg-blue-50/80 border border-blue-200 space-y-3">
+                        <div class="flex items-center gap-2 text-blue-900 font-bold text-sm">
+                            <i class="ph-fill ph-lightbulb-filament text-lg text-blue-600"></i>
+                            <h4>Piano d'Azione e Soluzioni Consigliate</h4>
+                        </div>
+                        <ul id="listaConsigli" class="space-y-2 text-xs sm:text-sm text-slate-700 list-disc list-inside">
+                            <!-- Popolato via JS -->
                         </ul>
                     </div>
 
-                    <!-- Mini-strumento interattivo: Verifica rapida -->
-                    <div class="mt-5 pt-4 border-t border-sage/30 flex items-center justify-between gap-2">
-                        <span class="text-xs sm:text-sm font-semibold text-forest">Non sei sicuro dei requisiti?</span>
-                        <button onclick="openEligibilityModal()" class="px-3.5 py-2 rounded-xl bg-forest text-white text-xs sm:text-sm font-bold hover:bg-opacity-90 transition flex items-center gap-1.5 shadow-xs">
-                            <i class="fas fa-check-circle"></i> Verifica per te
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- BOX DESTRO: DATE E ORARI AMBULATORIO -->
-            <div class="flex flex-col pt-2 lg:pt-6">
-                <!-- Intestazione Box Destro con testo Verde Scuro (#0d4a3e) ad alta leggibilità -->
-                <div class="header-right-gradient rounded-3xl p-5 sm:p-6 text-center shadow-sm border border-[#9fd3f0] relative z-10">
-                    <h2 class="font-sans text-lg sm:text-xl md:text-2xl text-forest font-semibold leading-snug">
-                        La vaccinazione sarà<br>
-                        effettuata nel mio ambulatorio<br>
-                        <strong class="font-heading font-extrabold text-xl sm:text-2xl tracking-wide text-forest inline-block mt-0.5">
-                            SENZA prenotazione
-                        </strong>
-                    </h2>
                 </div>
 
-                <!-- Corpo Box Destro: Lista Date -->
-                <div class="bg-skyLight border border-[#cde6f5] rounded-b-3xl -mt-4 pt-8 pb-6 px-4 sm:px-7 flex-grow flex flex-col justify-between shadow-xs">
-                    <ul class="space-y-4">
-                        
-                        <!-- DATA 1: Sabato 31 Ottobre -->
-                        <li class="bg-white/85 hover:bg-white p-3.5 sm:p-4 rounded-2xl border border-sky/25 shadow-2xs transition flex items-center justify-between gap-3">
-                            <div class="flex items-center gap-3.5 sm:gap-4">
-                                <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-[#e3f3fc] text-[#4b94b4] flex flex-col items-center justify-center flex-shrink-0 border border-[#9ccde6]">
-                                    <i class="far fa-calendar-alt text-2xl sm:text-3xl"></i>
-                                </div>
-                                <div>
-                                    <p class="font-heading font-extrabold text-base sm:text-lg text-slate-900 tracking-tight">
-                                        SABATO 31 OTTOBRE
-                                    </p>
-                                    <p class="text-sm sm:text-base text-slate-700 font-semibold">
-                                        dalle ore 8.30 alle 11.30
-                                    </p>
-                                </div>
-                            </div>
-                            <button onclick="saveToCalendar('20261031', 'Sabato 31 Ottobre 2026')" title="Salva promemoria sul calendario" class="px-3 py-2 rounded-xl bg-[#e3f3fc] hover:bg-forest text-forest hover:text-white text-xs font-bold transition flex items-center gap-1.5 flex-shrink-0 border border-sky/30">
-                                <i class="fas fa-calendar-plus"></i>
-                                <span class="hidden sm:inline">Salva</span>
-                            </button>
-                        </li>
-
-                        <!-- DATA 2: Giovedì 5 Novembre -->
-                        <li class="bg-white/85 hover:bg-white p-3.5 sm:p-4 rounded-2xl border border-sky/25 shadow-2xs transition flex items-center justify-between gap-3">
-                            <div class="flex items-center gap-3.5 sm:gap-4">
-                                <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-[#e3f3fc] text-[#4b94b4] flex flex-col items-center justify-center flex-shrink-0 border border-[#9ccde6]">
-                                    <i class="far fa-calendar-alt text-2xl sm:text-3xl"></i>
-                                </div>
-                                <div>
-                                    <p class="font-heading font-extrabold text-base sm:text-lg text-slate-900 tracking-tight">
-                                        GIOVEDÌ 5 NOVEMBRE
-                                    </p>
-                                    <p class="text-sm sm:text-base text-slate-700 font-semibold">
-                                        dalle ore 8.30 alle 11.30
-                                    </p>
-                                </div>
-                            </div>
-                            <button onclick="saveToCalendar('20261105', 'Giovedì 5 Novembre 2026')" title="Salva promemoria sul calendario" class="px-3 py-2 rounded-xl bg-[#e3f3fc] hover:bg-forest text-forest hover:text-white text-xs font-bold transition flex items-center gap-1.5 flex-shrink-0 border border-sky/30">
-                                <i class="fas fa-calendar-plus"></i>
-                                <span class="hidden sm:inline">Salva</span>
-                            </button>
-                        </li>
-
-                        <!-- DATA 3: Sabato 14 Novembre -->
-                        <li class="bg-white/85 hover:bg-white p-3.5 sm:p-4 rounded-2xl border border-sky/25 shadow-2xs transition flex items-center justify-between gap-3">
-                            <div class="flex items-center gap-3.5 sm:gap-4">
-                                <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-[#e3f3fc] text-[#4b94b4] flex flex-col items-center justify-center flex-shrink-0 border border-[#9ccde6]">
-                                    <i class="far fa-calendar-alt text-2xl sm:text-3xl"></i>
-                                </div>
-                                <div>
-                                    <p class="font-heading font-extrabold text-base sm:text-lg text-slate-900 tracking-tight">
-                                        SABATO 14 NOVEMBRE
-                                    </p>
-                                    <p class="text-sm sm:text-base text-slate-700 font-semibold">
-                                        dalle ore 8.30 alle 11.30
-                                    </p>
-                                </div>
-                            </div>
-                            <button onclick="saveToCalendar('20261114', 'Sabato 14 Novembre 2026')" title="Salva promemoria sul calendario" class="px-3 py-2 rounded-xl bg-[#e3f3fc] hover:bg-forest text-forest hover:text-white text-xs font-bold transition flex items-center gap-1.5 flex-shrink-0 border border-sky/30">
-                                <i class="fas fa-calendar-plus"></i>
-                                <span class="hidden sm:inline">Salva</span>
-                            </button>
-                        </li>
-
-                        <!-- DATA 4: Giovedì 19 Novembre -->
-                        <li class="bg-white/85 hover:bg-white p-3.5 sm:p-4 rounded-2xl border border-sky/25 shadow-2xs transition flex items-center justify-between gap-3">
-                            <div class="flex items-center gap-3.5 sm:gap-4">
-                                <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-[#e3f3fc] text-[#4b94b4] flex flex-col items-center justify-center flex-shrink-0 border border-[#9ccde6]">
-                                    <i class="far fa-calendar-alt text-2xl sm:text-3xl"></i>
-                                </div>
-                                <div>
-                                    <p class="font-heading font-extrabold text-base sm:text-lg text-slate-900 tracking-tight">
-                                        GIOVEDÌ 19 NOVEMBRE
-                                    </p>
-                                    <p class="text-sm sm:text-base text-slate-700 font-semibold">
-                                        dalle ore 8.30 alle 11.30
-                                    </p>
-                                </div>
-                            </div>
-                            <button onclick="saveToCalendar('20261119', 'Giovedì 19 Novembre 2026')" title="Salva promemoria sul calendario" class="px-3 py-2 rounded-xl bg-[#e3f3fc] hover:bg-forest text-forest hover:text-white text-xs font-bold transition flex items-center gap-1.5 flex-shrink-0 border border-sky/30">
-                                <i class="fas fa-calendar-plus"></i>
-                                <span class="hidden sm:inline">Salva</span>
-                            </button>
-                        </li>
-
-                    </ul>
-
-                    <div class="mt-5 pt-3 border-t border-sky/25 text-center">
-                        <p class="text-xs sm:text-sm text-forest font-semibold flex items-center justify-center gap-1.5">
-                            <i class="fas fa-info-circle text-[#4b94b4]"></i>
-                            Clicca su <strong>"Salva"</strong> accanto alla data preferita per aggiungerla al tuo smartphone.
-                        </p>
-                    </div>
-                </div>
-            </div>
-
-        </section>
-
-        <!-- ==========================================
-             3. SEZIONE INTERATTIVA & MINIGIOCO EDUCATIVO
-             ========================================== -->
-        <section id="educational-section" class="mx-5 sm:mx-10 md:mx-12 my-8 bg-gradient-to-br from-[#eaf6fc] via-[#f3faf7] to-[#e4f2f9] rounded-3xl p-6 sm:p-8 border-2 border-[#a8d5e5] shadow-sm">
-            
-            <!-- Intestazione Sezione Interattiva -->
-            <div class="text-center max-w-2xl mx-auto mb-8">
-                <span class="inline-block px-3.5 py-1 rounded-full bg-forest/10 text-forest font-heading font-bold text-xs uppercase tracking-wider mb-2">
-                    Spiegazione Interattiva
-                </span>
-                <h2 class="font-heading text-2xl sm:text-3xl md:text-4xl font-extrabold text-forest">
-                    Come funziona il vaccino? Scoprilo giocando!
-                </h2>
-                <p class="text-slate-600 text-sm sm:text-base mt-2">
-                    Esplora i 3 passaggi del sistema immunitario e metti alla prova gli anticorpi nel minigioco qui sotto.
-                </p>
-            </div>
-
-            <!-- PARTE A: IL VIAGGIO DELL'IMMUNITÀ (3 STEP CLICCABILI) -->
-            <div class="mb-10">
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-                    <!-- Step 1 Button -->
-                    <button onclick="selectStep(1)" id="step-btn-1" class="step-tab text-left p-4 rounded-2xl transition-all border-2 border-forest bg-white shadow-sm flex items-center gap-3.5">
-                        <div class="w-10 h-10 rounded-xl bg-forest text-white font-heading font-bold flex items-center justify-center flex-shrink-0 text-lg">1</div>
-                        <div>
-                            <p class="text-xs uppercase font-bold text-sage tracking-wider">Fase 1</p>
-                            <h3 class="font-heading font-bold text-forest text-base sm:text-lg">L'Allenamento</h3>
+                <!-- SCOMPOSIZIONE GRAFICA E PROSPETTO CONTABILE DELL'OPERAZIONE -->
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-200/80 p-6 space-y-6">
+                    <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                        <div class="flex items-center gap-2.5">
+                            <i class="ph-fill ph-chart-pie-slice text-xl text-indigo-600"></i>
+                            <h3 class="text-lg font-bold text-slate-800">Prospetto Completo dei Costi dell'Operazione</h3>
                         </div>
-                    </button>
-
-                    <!-- Step 2 Button -->
-                    <button onclick="selectStep(2)" id="step-btn-2" class="step-tab text-left p-4 rounded-2xl transition-all border-2 border-transparent bg-white/60 hover:bg-white flex items-center gap-3.5">
-                        <div class="w-10 h-10 rounded-xl bg-[#76b9d0] text-forest font-heading font-bold flex items-center justify-center flex-shrink-0 text-lg">2</div>
-                        <div>
-                            <p class="text-xs uppercase font-bold text-slate-500 tracking-wider">Fase 2</p>
-                            <h3 class="font-heading font-bold text-forest text-base sm:text-lg">Produzione di Scudi</h3>
-                        </div>
-                    </button>
-
-                    <!-- Step 3 Button -->
-                    <button onclick="selectStep(3)" id="step-btn-3" class="step-tab text-left p-4 rounded-2xl transition-all border-2 border-transparent bg-white/60 hover:bg-white flex items-center gap-3.5">
-                        <div class="w-10 h-10 rounded-xl bg-[#82b8a9] text-forest font-heading font-bold flex items-center justify-center flex-shrink-0 text-lg">3</div>
-                        <div>
-                            <p class="text-xs uppercase font-bold text-slate-500 tracking-wider">Fase 3</p>
-                            <h3 class="font-heading font-bold text-forest text-base sm:text-lg">La Difesa di Gruppo</h3>
-                        </div>
-                    </button>
-                </div>
-
-                <!-- Box Visualizzazione Step Attivo -->
-                <div class="bg-white rounded-2xl p-5 sm:p-6 border border-sky/30 shadow-xs grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
-                    <div class="md:col-span-4 flex justify-center" id="step-svg-container">
-                        <!-- L'SVG dinamico viene iniettato via JS -->
-                    </div>
-                    <div class="md:col-span-8 text-left">
-                        <span id="step-badge" class="inline-block px-3 py-0.5 rounded-full bg-[#e3f3fc] text-forest text-xs font-bold mb-2">
-                            Passo 1 di 3
-                        </span>
-                        <h4 id="step-title" class="font-heading text-xl sm:text-2xl font-extrabold text-forest mb-2">
-                            1. L'Allenamento: l'identikit del virus
-                        </h4>
-                        <p id="step-description" class="text-slate-700 text-sm sm:text-base leading-relaxed mb-4">
-                            Il vaccino mostra al nostro corpo una versione innocua o un semplice "identikit" del virus. Non può causare la malattia, ma serve come una palestra sicura per insegnare alle nostre cellule di difesa a riconoscere l'intruso.
-                        </p>
-                        <div class="flex items-center gap-3">
-                            <button onclick="nextStep()" class="px-4 py-2 rounded-xl bg-forest text-white text-xs sm:text-sm font-bold hover:bg-opacity-90 transition flex items-center gap-2">
-                                <span>Prossimo Step</span>
-                                <i class="fas fa-arrow-right"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- PARTE B: I 2 MINIGIOCHI INTERATTIVI (TABS) -->
-            <div id="minigame-section" class="bg-white rounded-3xl p-5 sm:p-7 border-2 border-[#82b8a9] shadow-md">
-                
-                <!-- Selettore Modalità Gioco -->
-                <div class="flex flex-wrap items-center justify-between gap-4 pb-5 mb-6 border-b border-slate-100">
-                    <div>
-                        <h3 class="font-heading text-xl sm:text-2xl font-extrabold text-forest flex items-center gap-2">
-                            <i class="fas fa-shield-heart text-[#4b94b4]"></i>
-                            Laboratorio Interattivo
-                        </h3>
-                        <p class="text-xs sm:text-sm text-slate-600">Scegli l'attività interattiva per vedere la prevenzione in azione:</p>
+                        <span class="text-xs font-medium text-slate-400">Ripartizione Voci</span>
                     </div>
 
-                    <div class="flex bg-[#eef7fc] p-1.5 rounded-2xl border border-sky/30">
-                        <button onclick="switchGameTab('arcade')" id="tab-arcade" class="px-4 py-2 rounded-xl font-heading font-bold text-xs sm:text-sm transition bg-forest text-white shadow-xs">
-                            🎮 1. Allena gli Anticorpi!
-                        </button>
-                        <button onclick="switchGameTab('herd')" id="tab-herd" class="px-4 py-2 rounded-xl font-heading font-bold text-xs sm:text-sm transition text-forest hover:bg-white/60">
-                            🛡️ 2. Simulatore Effetto Scudo
-                        </button>
+                    <!-- Barra di ripartizione visiva del Costo Totale Operazione -->
+                    <div class="space-y-2">
+                        <div class="flex justify-between text-xs font-semibold text-slate-600">
+                            <span>Composizione del Costo Operazione (<span id="lblTotaleBarra">226.500 €</span>)</span>
+                            <span>100%</span>
+                        </div>
+                        <div class="h-5 w-full rounded-xl bg-slate-100 overflow-hidden flex shadow-inner p-0.5 gap-0.5">
+                            <div id="barQuotaMutuo" class="h-full bg-blue-600 rounded-l-lg transition-all duration-300" style="width: 70%" title="Quota coperta da Mutuo"></div>
+                            <div id="barQuotaAnticipo" class="h-full bg-emerald-500 transition-all duration-300" style="width: 18%" title="Anticipo Immobile"></div>
+                            <div id="barQuotaArredo" class="h-full bg-purple-500 transition-all duration-300" style="width: 6%" title="Arredo"></div>
+                            <div id="barQuotaAccessori" class="h-full bg-amber-500 rounded-r-lg transition-all duration-300" style="width: 6%" title="Agenzia e Notaio"></div>
+                        </div>
+                        <!-- Legenda Barra -->
+                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-2 text-xs">
+                            <div class="flex items-center gap-2">
+                                <span class="w-3 h-3 rounded-sm bg-blue-600 shrink-0"></span>
+                                <span class="text-slate-600 truncate">Mutuo: <strong id="legMutuo" class="text-slate-900">70%</strong></span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <span class="w-3 h-3 rounded-sm bg-emerald-500 shrink-0"></span>
+                                <span class="text-slate-600 truncate">Anticipo: <strong id="legAnticipo" class="text-slate-900">18%</strong></span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <span class="w-3 h-3 rounded-sm bg-purple-500 shrink-0"></span>
+                                <span class="text-slate-600 truncate">Arredo: <strong id="legArredo" class="text-slate-900">6%</strong></span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <span class="w-3 h-3 rounded-sm bg-amber-500 shrink-0"></span>
+                                <span class="text-slate-600 truncate">Agenzia/Notaio: <strong id="legAccessori" class="text-slate-900">6%</strong></span>
+                            </div>
+                        </div>
                     </div>
-                </div>
 
-                <!-- MODALITÀ 1: MINIGIOCO ARCADE "ALLENA GLI ANTICORPI!" -->
-                <div id="game-panel-arcade" class="block">
-                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
-                        
-                        <!-- Pannello Controlli e Stato -->
-                        <div class="lg:col-span-5 space-y-4">
-                            <div class="bg-[#f3f8f5] p-4 rounded-2xl border border-sage/40">
-                                <div class="flex items-center justify-between mb-1">
-                                    <span class="text-xs font-bold uppercase text-slate-500">Stato Sistema Immunitario:</span>
-                                    <span id="vaccine-status-badge" class="px-2.5 py-0.5 rounded-full text-xs font-extrabold bg-amber-100 text-amber-800">
-                                        Non Allenato
-                                    </span>
-                                </div>
-                                <p id="game-instruction-text" class="text-xs sm:text-sm text-slate-700 leading-relaxed mt-2">
-                                    I virus (rossi) stanno cercando di raggiungere le cellule sane in basso! Tocca o clicca sui virus per bloccarli, poi premi <strong>"Attiva la Difesa Vaccinale!"</strong> per vedere la differenza.
-                                </p>
-                            </div>
-
-                            <!-- Barra di Protezione Immunitaria -->
-                            <div class="bg-skyLight p-4 rounded-2xl border border-sky/30">
-                                <div class="flex justify-between text-xs sm:text-sm font-bold text-forest mb-1.5">
-                                    <span>Livello Protezione Immunitaria</span>
-                                    <span id="immunity-score-label">0%</span>
-                                </div>
-                                <div class="w-full h-4 bg-white rounded-full overflow-hidden border border-sky/40 p-0.5">
-                                    <div id="immunity-progress-bar" class="h-full bg-gradient-to-r from-[#5da9c4] to-[#0d4a3e] rounded-full transition-all duration-300" style="width: 0%"></div>
-                                </div>
-                                <div class="flex justify-between text-[11px] text-slate-500 mt-1.5">
-                                    <span>Virus neutralizzati: <strong id="neutralized-count" class="text-forest">0</strong></span>
-                                    <span>Salute cellule: <strong id="cell-health-label" class="text-emerald-700">100%</strong></span>
-                                </div>
-                            </div>
-
-                            <!-- Pulsanti Azione Gioco -->
-                            <div class="flex flex-col sm:flex-row lg:flex-col gap-2.5">
-                                <button id="activate-vaccine-btn" onclick="activateVaccineBoost()" class="w-full py-3.5 px-5 rounded-2xl bg-forest text-white font-heading font-extrabold text-sm sm:text-base shadow-md hover:bg-[#146353] transition flex items-center justify-center gap-2 pulse-btn">
-                                    <i class="fas fa-shield-virus text-lg"></i>
-                                    <span>Attiva la Difesa Vaccinale!</span>
-                                </button>
-                                
-                                <button onclick="resetArcadeGame()" class="w-full py-2.5 px-4 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs sm:text-sm transition flex items-center justify-center gap-1.5">
-                                    <i class="fas fa-redo-alt"></i> Ricomincia partita
-                                </button>
-                            </div>
-                        </div>
-
-                        <!-- Area Canvas di Gioco -->
-                        <div class="lg:col-span-7">
-                            <div class="relative rounded-2xl overflow-hidden border-2 border-[#76b9d0] bg-gradient-to-b from-[#e8f5fc] to-[#d5eee6] shadow-inner h-[320px] sm:h-[360px] w-full" id="canvas-wrapper">
-                                <canvas id="vaccineCanvas" class="w-full h-full block"></canvas>
-
-                                <!-- Messaggio Overlay di Vittoria / Spiegazione -->
-                                <div id="game-victory-overlay" class="hidden absolute inset-0 bg-forest/90 backdrop-blur-xs text-white p-6 flex flex-col items-center justify-center text-center z-20">
-                                    <div class="w-16 h-16 rounded-full bg-white text-forest flex items-center justify-center text-3xl mb-3 shadow-lg">
-                                        <i class="fas fa-award"></i>
-                                    </div>
-                                    <h4 class="font-heading text-2xl font-extrabold mb-2">Protezione Completa Raggiunta!</h4>
-                                    <p class="text-sm text-skyHeader max-w-md mb-5 leading-relaxed">
-                                        Hai visto? Quando il sistema immunitario è addestrato dal vaccino, gli <strong>Anticorpi Scudo</strong> riconoscono e neutralizzano il virus istantaneamente prima che possa danneggiare le cellule!
-                                    </p>
-                                    <div class="flex flex-wrap justify-center gap-3">
-                                        <button onclick="resetArcadeGame()" class="px-5 py-2.5 rounded-xl bg-white text-forest font-heading font-bold text-sm hover:bg-skyLight transition">
-                                            Gioca ancora
-                                        </button>
-                                        <button onclick="switchGameTab('herd')" class="px-5 py-2.5 rounded-xl bg-[#76b9d0] text-forest font-heading font-bold text-sm hover:bg-opacity-90 transition">
-                                            Prova il Simulatore Comunità <i class="fas fa-arrow-right ml-1"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                            <p class="text-center text-xs text-slate-500 mt-2">
-                                💡 <strong>Suggerimento:</strong> Muovi il mouse o tocca lo schermo sui virus rossi. Con il vaccino attivo, il tuo scudo rilascia anticorpi automatici!
-                            </p>
-                        </div>
-
-                    </div>
-                </div>
-
-                <!-- MODALITÀ 2: SIMULATORE "IMMUNITÀ DI COMUNITÀ (EFFETTO SCUDO)" -->
-                <div id="game-panel-herd" class="hidden">
-                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
-                        
-                        <!-- Controlli Slider -->
-                        <div class="lg:col-span-5 space-y-4">
-                            <div class="bg-[#f3f8f5] p-5 rounded-2xl border border-sage/40">
-                                <h4 class="font-heading font-bold text-forest text-base sm:text-lg mb-2">
-                                    Perché proteggi anche chi ti sta vicino?
-                                </h4>
-                                <p class="text-xs sm:text-sm text-slate-700 leading-relaxed mb-4">
-                                    Nella nostra comunità ci sono persone più fragili (anziani, neonati, pazienti immunodepressi). Trascina lo slider per vedere come i vaccinati creano una barriera che blocca il virus.
-                                </p>
-
-                                <label for="herd-slider" class="block text-xs sm:text-sm font-bold text-forest mb-2">
-                                    Percentuale di persone vaccinate: <span id="herd-percentage-label" class="text-lg font-extrabold px-2 py-0.5 rounded-lg bg-white border border-sage">25%</span>
-                                </label>
-                                <input id="herd-slider" type="range" min="10" max="90" step="10" value="30" oninput="updateHerdSimulation(this.value)" class="w-full h-3 bg-skyLight rounded-lg appearance-none cursor-pointer accent-forest">
-                                <div class="flex justify-between text-[11px] text-slate-500 mt-1 font-semibold">
-                                    <span>10% (Bassa)</span>
-                                    <span>50% (Media)</span>
-                                    <span>90% (Scudo Comunità)</span>
-                                </div>
-                            </div>
-
-                            <div class="flex gap-2.5">
-                                <button onclick="runHerdContagionTest()" class="flex-grow py-3 px-4 rounded-2xl bg-forest text-white font-heading font-bold text-xs sm:text-sm hover:bg-opacity-90 transition flex items-center justify-center gap-2 shadow-sm">
-                                    <i class="fas fa-play"></i> Simula arrivo del Virus
-                                </button>
-                            </div>
-
-                            <!-- Legenda -->
-                            <div class="grid grid-cols-2 gap-2 text-xs bg-slate-50 p-3.5 rounded-2xl border border-slate-200">
-                                <div class="flex items-center gap-2">
-                                    <span class="w-3.5 h-3.5 rounded-full bg-[#0d4a3e] inline-block"></span>
-                                    <span class="font-semibold text-slate-700">Vaccinato (Protetto)</span>
-                                </div>
-                                <div class="flex items-center gap-2">
-                                    <span class="w-3.5 h-3.5 rounded-full bg-amber-500 inline-block"></span>
-                                    <span class="font-semibold text-slate-700">Persona Fragile</span>
-                                </div>
-                                <div class="flex items-center gap-2">
-                                    <span class="w-3.5 h-3.5 rounded-full bg-sky-400 inline-block"></span>
-                                    <span class="font-semibold text-slate-700">Non vaccinato</span>
-                                </div>
-                                <div class="flex items-center gap-2">
-                                    <span class="w-3.5 h-3.5 rounded-full bg-rose-500 inline-block"></span>
-                                    <span class="font-semibold text-slate-700">Raggiunto dal virus</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Griglia di Simulazione Comunità -->
-                        <div class="lg:col-span-7">
-                            <div class="bg-[#eef7fc] p-5 rounded-2xl border-2 border-sky/40">
-                                <div id="herd-grid" class="grid grid-cols-6 sm:grid-cols-6 gap-2.5 sm:gap-3 place-items-center py-2">
-                                    <!-- Generato dinamicamente via JS (30 persone) -->
-                                </div>
-                                <div id="herd-result-banner" class="mt-4 p-3 rounded-xl bg-white border border-sky/30 text-center text-xs sm:text-sm font-bold text-forest">
-                                    Imposta la percentuale e clicca su "Simula arrivo del Virus" per osservare l'effetto scudo.
-                                </div>
-                            </div>
-                        </div>
-
+                    <!-- Tabella Dettagliata Contabile -->
+                    <div class="overflow-hidden rounded-xl border border-slate-200">
+                        <table class="w-full text-left border-collapse text-xs sm:text-sm">
+                            <thead>
+                                <tr class="bg-slate-50 border-b border-slate-200 text-slate-500 font-semibold">
+                                    <th class="py-3 px-4">Voce di Costo</th>
+                                    <th class="py-3 px-4 hidden sm:table-cell">Modalità di Copertura</th>
+                                    <th class="py-3 px-4 text-right">Importo</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-200/70">
+                                <tr>
+                                    <td class="py-3 px-4 font-semibold text-slate-800">Prezzo di acquisto immobile</td>
+                                    <td class="py-3 px-4 text-slate-500 hidden sm:table-cell">Anticipo + Mutuo Ipotecario</td>
+                                    <td id="tabPrezzo" class="py-3 px-4 text-right font-bold text-slate-900">200.000 €</td>
+                                </tr>
+                                <tr class="bg-emerald-50/40">
+                                    <td class="py-2.5 px-4 pl-7 text-emerald-900 flex items-center gap-1.5">
+                                        <i class="ph-bold ph-minus-circle text-emerald-600"></i>
+                                        <span>di cui Anticipo versato da te</span>
+                                    </td>
+                                    <td class="py-2.5 px-4 text-emerald-700 hidden sm:table-cell">Liquidità immediata (da sottrarre al prezzo)</td>
+                                    <td id="tabAnticipo" class="py-2.5 px-4 text-right font-semibold text-emerald-800">- 40.000 €</td>
+                                </tr>
+                                <tr class="bg-blue-50/40">
+                                    <td class="py-2.5 px-4 pl-7 text-blue-900 font-medium flex items-center gap-1.5">
+                                        <i class="ph-bold ph-equals text-blue-600"></i>
+                                        <span>Capitale residuo da finanziare (Mutuo)</span>
+                                    </td>
+                                    <td class="py-2.5 px-4 text-blue-700 hidden sm:table-cell">Finanziato dalla Banca</td>
+                                    <td id="tabMutuo" class="py-2.5 px-4 text-right font-bold text-blue-900">160.000 €</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-3 px-4 font-medium text-slate-700">+ Budget Arredamento / Ristrutturazione</td>
+                                    <td class="py-3 px-4 text-amber-700 hidden sm:table-cell">Liquidità propria</td>
+                                    <td id="tabArredo" class="py-3 px-4 text-right font-semibold text-slate-800">15.000 €</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-3 px-4 font-medium text-slate-700">+ Provvigione Agenzia Immobiliare</td>
+                                    <td class="py-3 px-4 text-amber-700 hidden sm:table-cell">Liquidità propria (al preliminare/rogito)</td>
+                                    <td id="tabAgenzia" class="py-3 px-4 text-right font-semibold text-slate-800">6.000 €</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-3 px-4 font-medium text-slate-700">+ Spese Notarili, Imposte e Istruttoria</td>
+                                    <td class="py-3 px-4 text-amber-700 hidden sm:table-cell">Liquidità propria (al rogito)</td>
+                                    <td id="tabNotaio" class="py-3 px-4 text-right font-semibold text-slate-800">5.500 €</td>
+                                </tr>
+                            </tbody>
+                            <tfoot class="bg-slate-900 text-white font-bold">
+                                <tr>
+                                    <td class="py-3.5 px-4">COSTO COMPLESSIVO OPERAZIONE (Chiavi in mano)</td>
+                                    <td class="py-3.5 px-4 text-slate-300 font-normal text-xs hidden sm:table-cell">Esclusi interessi passivi del mutuo</td>
+                                    <td id="tabTotaleOperazione" class="py-3.5 px-4 text-right text-base text-emerald-400">226.500 €</td>
+                                </tr>
+                                <tr class="bg-slate-800 text-slate-200 border-t border-slate-700">
+                                    <td class="py-3 px-4 text-xs sm:text-sm">COSTO TOTALE FINALE (Inclusi Interessi Mutuo)</td>
+                                    <td class="py-3 px-4 text-slate-400 font-normal text-xs hidden sm:table-cell">Esborso totale a fine ammortamento</td>
+                                    <td id="tabTotaleConInteressi" class="py-3 px-4 text-right text-sm text-amber-300">299.104 €</td>
+                                </tr>
+                            </tfoot>
+                        </table>
                     </div>
                 </div>
 
             </div>
-        </section>
-
-        <!-- ==========================================
-             4. FOOTER DELLA LOCANDINA
-             ========================================== -->
-        <footer class="relative pt-6 pb-16 px-4 sm:px-10 text-center overflow-hidden">
-            
-            <div class="max-w-4xl mx-auto flex items-center justify-center gap-2 sm:gap-6 relative z-10">
-                
-                <!-- Decorazioni Foglie Stilizzate a Sinistra -->
-                <div class="hidden sm:flex items-end gap-2 text-[#5c998b]">
-                    <svg class="w-14 h-24" viewBox="0 0 60 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M35 95 C30 65 20 35 12 10" stroke="#3c7a6d" stroke-width="2.2" stroke-linecap="round"/>
-                        <path d="M22 35 C8 30 4 18 14 14 C24 18 24 28 22 35 Z" fill="#78b0a0"/>
-                        <path d="M26 55 C10 52 5 40 15 36 C25 40 27 48 26 55 Z" fill="#78b0a0"/>
-                        <path d="M30 75 C14 72 10 60 20 56 C30 60 31 68 30 75 Z" fill="#78b0a0"/>
-                        <path d="M23 32 C35 24 44 18 36 12 C28 14 23 24 23 32 Z" fill="#8ec2b2"/>
-                        <path d="M28 52 C40 44 48 38 40 32 C32 34 28 44 28 52 Z" fill="#8ec2b2"/>
-                        <path d="M32 72 C44 64 52 58 44 52 C36 54 32 64 32 72 Z" fill="#8ec2b2"/>
-                    </svg>
-                    <svg class="w-12 h-16 mb-1" viewBox="0 0 50 70" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M45 65 C32 50 20 35 10 15" stroke="#2f7064" stroke-width="2" stroke-linecap="round"/>
-                        <path d="M25 40 C15 42 8 34 14 28 C20 30 24 36 25 40 Z" fill="#5da696"/>
-                        <path d="M35 54 C25 56 18 48 24 42 C30 44 34 50 35 54 Z" fill="#5da696"/>
-                        <path d="M26 36 C32 26 38 22 32 16 C25 18 24 28 26 36 Z" fill="#76b8a9"/>
-                    </svg>
-                </div>
-
-                <!-- Slogan Centrale Corsivo -->
-                <div class="px-2">
-                    <p class="font-cursive text-3xl sm:text-5xl md:text-[52px] text-forest font-bold leading-[1.15]">
-                        La prevenzione è un gesto di cura!<br>
-                        Prenditi cura di te e di chi ami!
-                    </p>
-                    <!-- Linea ondulata azzurra sotto la frase -->
-                    <div class="flex justify-center mt-4">
-                        <svg class="w-48 sm:w-64 h-5 text-[#3b84a8]" viewBox="0 0 200 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M5 14 Q 55 2, 105 11 T 195 9" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
-                        </svg>
-                    </div>
-                </div>
-
-                <!-- Decorazioni Foglie Stilizzate a Destra -->
-                <div class="hidden sm:flex items-end gap-2">
-                    <svg class="w-12 h-16 mb-1" viewBox="0 0 50 70" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M5 65 C18 50 30 35 40 15" stroke="#2f7064" stroke-width="2" stroke-linecap="round"/>
-                        <path d="M25 40 C35 42 42 34 36 28 C30 30 26 36 25 40 Z" fill="#63b39f"/>
-                        <path d="M15 54 C25 56 32 48 26 42 C20 44 16 50 15 54 Z" fill="#63b39f"/>
-                        <path d="M24 36 C18 26 12 22 18 16 C25 18 26 28 24 36 Z" fill="#82ccb9"/>
-                    </svg>
-                    <svg class="w-14 h-24" viewBox="0 0 60 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M25 95 C30 65 40 35 48 10" stroke="#3b88b0" stroke-width="2.2" stroke-linecap="round"/>
-                        <path d="M38 35 C52 30 56 18 46 14 C36 18 36 28 38 35 Z" fill="#6ebce0"/>
-                        <path d="M34 55 C50 52 55 40 45 36 C35 40 33 48 34 55 Z" fill="#6ebce0"/>
-                        <path d="M30 75 C46 72 50 60 40 56 C30 60 29 68 30 75 Z" fill="#6ebce0"/>
-                        <path d="M37 32 C25 24 16 18 24 12 C32 14 37 24 37 32 Z" fill="#8ad0ef"/>
-                        <path d="M32 52 C20 44 12 38 20 32 C28 34 32 44 32 52 Z" fill="#8ad0ef"/>
-                        <path d="M28 72 C16 64 8 58 16 52 C24 54 28 64 28 72 Z" fill="#8ad0ef"/>
-                    </svg>
-                </div>
-
-            </div>
-
-            <!-- Onda Azzurra sul fondo fedele alla locandina -->
-            <div class="absolute bottom-0 left-0 right-0 w-full overflow-hidden leading-none pointer-events-none">
-                <svg class="w-full h-10 sm:h-14" viewBox="0 0 1200 120" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M0,40 C300,110 900,110 1200,30 L1200,120 L0,120 Z" fill="#5da9d6" opacity="0.85"></path>
-                    <path d="M0,65 C400,120 800,120 1200,55 L1200,120 L0,120 Z" fill="#4692c2"></path>
-                </svg>
-            </div>
-        </footer>
-
+        </div>
     </main>
 
-    <!-- ==========================================
-         MODALE INTERATTIVA: SALVA SUL CALENDARIO
-         ========================================== -->
-    <div id="calendar-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs hidden items-center justify-center z-50 p-4">
-        <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border-2 border-sky animate-float" style="animation-duration: 6s;">
-            <div class="flex items-center justify-between mb-4">
-                <div class="flex items-center gap-2.5 text-forest font-heading font-extrabold text-lg">
-                    <i class="fas fa-calendar-check text-2xl text-[#4b94b4]"></i>
-                    <span>Salva Promemoria</span>
-                </div>
-                <button onclick="closeCalendarModal()" class="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-600 flex items-center justify-center">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <p class="text-sm text-slate-600 mb-2">Hai selezionato la sessione vaccinale (senza prenotazione) di:</p>
-            <div class="bg-skyLight p-3.5 rounded-2xl border border-sky/40 mb-5">
-                <p id="modal-date-title" class="font-heading font-extrabold text-forest text-base">SABATO 31 OTTOBRE 2026</p>
-                <p class="text-xs sm:text-sm text-slate-700 font-semibold">Orario: dalle ore 08:30 alle 11:30</p>
-            </div>
-            <div class="space-y-2.5">
-                <a id="gcal-link" href="#" target="_blank" rel="noopener noreferrer" onclick="closeCalendarModal()" class="w-full py-3 px-4 rounded-xl bg-forest text-white font-heading font-bold text-sm hover:bg-opacity-90 transition flex items-center justify-center gap-2">
-                    <i class="fab fa-google"></i> Aggiungi a Google Calendar
-                </a>
-                <button id="ics-btn" class="w-full py-3 px-4 rounded-xl bg-[#e3f3fc] text-forest font-heading font-bold text-sm hover:bg-[#cde8f6] transition flex items-center justify-center gap-2 border border-sky/40">
-                    <i class="fas fa-download"></i> Scarica file Calendario (.ics per Apple/Outlook)
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- ==========================================
-         MODALE INTERATTIVA: VERIFICA SE È RACCOMANDATA PER TE
-         ========================================== -->
-    <div id="eligibility-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs hidden items-center justify-center z-50 p-4">
-        <div class="bg-white rounded-3xl max-w-lg w-full p-6 shadow-2xl border-2 border-sage">
-            <div class="flex items-center justify-between mb-4">
-                <div class="flex items-center gap-2.5 text-forest font-heading font-extrabold text-lg">
-                    <i class="fas fa-user-shield text-2xl text-sage"></i>
-                    <span>Verifica Raccomandazione</span>
-                </div>
-                <button onclick="closeEligibilityModal()" class="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-600 flex items-center justify-center">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            
-            <p class="text-sm text-slate-600 mb-4">Seleziona una o più voci che ti riguardano per scoprire perché la vaccinazione è consigliata:</p>
-            
-            <div class="space-y-2.5 mb-5 text-sm">
-                <label class="flex items-center gap-3 p-3 rounded-xl bg-sageLight border border-sage/30 cursor-pointer hover:bg-[#e4f2ec]">
-                    <input type="checkbox" class="elig-check w-4 h-4 accent-forest rounded" value="over60">
-                    <span class="font-bold text-slate-800">Ho 60 anni o più</span>
-                </label>
-                <label class="flex items-center gap-3 p-3 rounded-xl bg-sageLight border border-sage/30 cursor-pointer hover:bg-[#e4f2ec]">
-                    <input type="checkbox" class="elig-check w-4 h-4 accent-forest rounded" value="worker">
-                    <span class="font-bold text-slate-800">Lavoro nella sanità o nella scuola</span>
-                </label>
-                <label class="flex items-center gap-3 p-3 rounded-xl bg-sageLight border border-sage/30 cursor-pointer hover:bg-[#e4f2ec]">
-                    <input type="checkbox" class="elig-check w-4 h-4 accent-forest rounded" value="caregiver">
-                    <span class="font-bold text-slate-800">Mi prendo cura di anziani o persone fragili (Caregiver)</span>
-                </label>
-                <label class="flex items-center gap-3 p-3 rounded-xl bg-sageLight border border-sage/30 cursor-pointer hover:bg-[#e4f2ec]">
-                    <input type="checkbox" class="elig-check w-4 h-4 accent-forest rounded" value="chronic">
-                    <span class="font-bold text-slate-800">Ho una patologia cronica, sono in gravidanza o dono il sangue</span>
-                </label>
-            </div>
-
-            <button onclick="evaluateEligibility()" class="w-full py-3 rounded-xl bg-forest text-white font-heading font-bold text-sm hover:bg-opacity-90 transition">
-                Mostra Risultato
-            </button>
-
-            <div id="eligibility-result" class="hidden mt-4 p-4 rounded-2xl bg-[#e3f3fc] border border-sky text-forest text-xs sm:text-sm font-semibold leading-relaxed"></div>
-        </div>
-    </div>
-
-    <!-- ==========================================
-         SCRIPT JAVASCRIPT: LOGICA INTERATTIVA E MINIGIOCHI
-         ========================================== -->
     <script>
-        /* -----------------------------------------------------------
-           1. INTERAZIONE CATEGORIE E MODALE REQUISITI
-           ----------------------------------------------------------- */
-        function showCategoryDetail(index) {
-            for (let i = 0; i < 5; i++) {
-                const desc = document.getElementById(`cat-desc-${i}`);
-                const icon = document.getElementById(`cat-icon-${i}`);
-                if (i === index) {
-                    const isHidden = desc.classList.contains('hidden');
-                    desc.classList.toggle('hidden', !isHidden);
-                    icon.style.transform = isHidden ? 'rotate(180deg)' : 'rotate(0deg)';
-                } else {
-                    desc.classList.add('hidden');
-                    icon.style.transform = 'rotate(0deg)';
-                }
+        // Riferimenti agli elementi DOM Input
+        const numPrezzo = document.getElementById('numPrezzo');
+        const rngPrezzo = document.getElementById('rngPrezzo');
+        
+        const numAnticipo = document.getElementById('numAnticipo');
+        const rngAnticipo = document.getElementById('rngAnticipo');
+        const badgeAnticipoPerc = document.getElementById('badgeAnticipoPerc');
+
+        const numArredo = document.getElementById('numArredo');
+        const rngArredo = document.getElementById('rngArredo');
+
+        const numAgenzia = document.getElementById('numAgenzia');
+        const badgeAgenziaPerc = document.getElementById('badgeAgenziaPerc');
+
+        const numNotaio = document.getElementById('numNotaio');
+        const rngNotaio = document.getElementById('rngNotaio');
+
+        const numReddito = document.getElementById('numReddito');
+        const rngReddito = document.getElementById('rngReddito');
+
+        const numAnni = document.getElementById('numAnni');
+        const numTasso = document.getElementById('numTasso');
+        const rngTasso = document.getElementById('rngTasso');
+
+        // Formattatore valuta Euro
+        const fmtEuro = new Intl.NumberFormat('it-IT', {
+            style: 'currency',
+            currency: 'EUR',
+            maximumFractionDigits: 0
+        });
+
+        const fmtEuroDecimal = new Intl.NumberFormat('it-IT', {
+            style: 'currency',
+            currency: 'EUR',
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 0
+        });
+
+        // Funzione per calcolare la rata mensile (Ammortamento alla Francese)
+        function calcolaRataMutuo(capitale, tassoAnnuoPerc, anni) {
+            if (capitale <= 0 || anni <= 0) return 0;
+            const nRate = anni * 12;
+            if (tassoAnnuoPerc <= 0) return capitale / nRate;
+            const rMensile = (tassoAnnuoPerc / 100) / 12;
+            const fattore = Math.pow(1 + rMensile, nRate);
+            return capitale * (rMensile * fattore) / (fattore - 1);
+        }
+
+        // Funzione inversa: dato un importo massimo di rata, calcola il capitale massimo mutuabile
+        function calcolaCapitaleMaxDaRata(rataMax, tassoAnnuoPerc, anni) {
+            if (rataMax <= 0 || anni <= 0) return 0;
+            const nRate = anni * 12;
+            if (tassoAnnuoPerc <= 0) return rataMax * nRate;
+            const rMensile = (tassoAnnuoPerc / 100) / 12;
+            const fattore = Math.pow(1 + rMensile, nRate);
+            return rataMax * (fattore - 1) / (rMensile * fattore);
+        }
+
+        // Sincronizzazione coppie Input Number <-> Range Slider
+        function syncInputs(numEl, rngEl, callback) {
+            numEl.addEventListener('input', () => {
+                rngEl.value = numEl.value;
+                callback();
+            });
+            rngEl.addEventListener('input', () => {
+                numEl.value = rngEl.value;
+                callback();
+            });
+        }
+
+        // Gestione specifica Prezzo e Anticipo (aggiorna il max dello slider anticipo)
+        numPrezzo.addEventListener('input', () => {
+            rngPrezzo.value = numPrezzo.value;
+            aggiornaLimitiAnticipo();
+            calcolaTutto();
+        });
+        rngPrezzo.addEventListener('input', () => {
+            numPrezzo.value = rngPrezzo.value;
+            aggiornaLimitiAnticipo();
+            calcolaTutto();
+        });
+
+        function aggiornaLimitiAnticipo() {
+            const prezzo = Math.max(0, parseFloat(numPrezzo.value) || 0);
+            rngAnticipo.max = prezzo;
+            if ((parseFloat(numAnticipo.value) || 0) > prezzo) {
+                numAnticipo.value = prezzo;
+                rngAnticipo.value = prezzo;
             }
         }
 
-        function openEligibilityModal() {
-            const modal = document.getElementById('eligibility-modal');
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
-        }
+        syncInputs(numAnticipo, rngAnticipo, calcolaTutto);
+        syncInputs(numArredo, rngArredo, calcolaTutto);
+        syncInputs(numNotaio, rngNotaio, calcolaTutto);
+        syncInputs(numReddito, rngReddito, calcolaTutto);
+        syncInputs(numTasso, rngTasso, calcolaTutto);
 
-        function closeEligibilityModal() {
-            const modal = document.getElementById('eligibility-modal');
-            modal.classList.add('hidden');
-            modal.classList.remove('flex');
-        }
+        numAgenzia.addEventListener('input', calcolaTutto);
+        numAnni.addEventListener('input', () => {
+            aggiornaBottoniAnni( parseInt(numAnni.value) );
+            calcolaTutto();
+        });
 
-        function evaluateEligibility() {
-            const checks = document.querySelectorAll('.elig-check:checked');
-            const resBox = document.getElementById('eligibility-result');
-            resBox.classList.remove('hidden');
-
-            if (checks.length > 0) {
-                resBox.innerHTML = `
-                    <div class="flex items-start gap-2.5">
-                        <i class="fas fa-check-circle text-lg text-emerald-700 mt-0.5"></i>
-                        <div>
-                            <strong class="block text-base mb-1">La vaccinazione è fortemente raccomandata per te!</strong>
-                            Rientri nelle categorie per cui la prevenzione è fondamentale per proteggere la tua salute e quella delle persone vicine. Puoi recarti direttamente in ambulatorio <strong>senza prenotazione</strong> in una delle 4 date indicate!
-                        </div>
-                    </div>
-                `;
-            } else {
-                resBox.innerHTML = `
-                    <div class="flex items-start gap-2.5">
-                        <i class="fas fa-info-circle text-lg text-[#3b84a8] mt-0.5"></i>
-                        <div>
-                            Anche se non hai spuntato le voci principali, chiedi consiglio in ambulatorio: la prevenzione resta un gesto prezioso per ridurre la circolazione del virus!
-                        </div>
-                    </div>
-                `;
-            }
-        }
-
-        /* -----------------------------------------------------------
-           2. SALVATAGGIO DATE SUL CALENDARIO (ANNO 2026)
-           ----------------------------------------------------------- */
-        function saveToCalendar(dateStr,humanDate) {
-            const modal = document.getElementById('calendar-modal');
-            const titleEl = document.getElementById('modal-date-title');
-            const gcalLink = document.getElementById('gcal-link');
-            const icsBtn = document.getElementById('ics-btn');
-
-            titleEl.textContent = humanDate.toUpperCase();
-
-            const startDateTime = `${dateStr}T083000`;
-            const endDateTime = `${dateStr}T113000`;
-            const eventTitle = encodeURIComponent('Vaccinazione in Ambulatorio (Senza Prenotazione)');
-            const eventDetails = encodeURIComponent('Campagna Vaccinale: accesso diretto in ambulatorio dalle ore 8:30 alle 11:30 senza prenotazione.');
-
-            gcalLink.href = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${eventTitle}&dates=${startDateTime}/${endDateTime}&details=${eventDetails}`;
-
-            icsBtn.onclick = function() {
-                const icsContent = [
-                    'BEGIN:VCALENDAR',
-                    'VERSION:2.0',
-                    'BEGIN:VEVENT',
-                    `DTSTART:${startDateTime}`,
-                    `DTEND:${endDateTime}`,
-                    'SUMMARY:Vaccinazione in Ambulatorio (Senza Prenotazione)',
-                    'DESCRIPTION:Campagna Vaccinale - Accesso diretto in ambulatorio senza prenotazione dalle 8.30 alle 11.30.',
-                    'END:VEVENT',
-                    'END:VCALENDAR'
-                ].join('\n');
-
-                const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = `vaccinazione-${dateStr}.ics`;
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-                URL.revokeObjectURL(url);
-                closeCalendarModal();
-            };
-
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
-        }
-
-        function closeCalendarModal() {
-            const modal = document.getElementById('calendar-modal');
-            modal.classList.add('hidden');
-            modal.classList.remove('flex');
-        }
-
-        /* -----------------------------------------------------------
-           3. PARTE A: VIAGGIO DELL'IMMUNITÀ (3 STEP)
-           ----------------------------------------------------------- */
-        let currentStep = 1;
-        const stepsData = {
-            1: {
-                badge: 'Passo 1 di 3 • Riconoscimento',
-                title: "1. L'Allenamento: l'identikit del virus",
-                desc: "Il vaccino mostra al nostro corpo una versione innocua o un semplice \"identikit\" del virus. Non può causare la malattia, ma funziona come un allenamento sicuro per insegnare alle nostre difese a riconoscere subito l'intruso.",
-                svg: `
-                    <svg viewBox="0 0 180 140" class="w-44 h-36">
-                        <circle cx="90" cy="70" r="58" fill="#e3f3fc" />
-                        <!-- Identikit / Poster ricercato innocuo -->
-                        <rect x="55" y="25" width="70" height="90" rx="10" fill="#ffffff" stroke="#0d4a3e" stroke-width="3"/>
-                        <text x="90" y="43" text-anchor="middle" fill="#0d4a3e" font-size="9" font-weight="bold" font-family="Montserrat">IDENTIKIT</text>
-                        <circle cx="90" cy="72" r="18" fill="#cbd5e1" stroke="#64748b" stroke-width="2" stroke-dasharray="3 2"/>
-                        <circle cx="84" cy="69" r="2.5" fill="#475569"/>
-                        <circle cx="96" cy="69" r="2.5" fill="#475569"/>
-                        <path d="M84 79 Q90 75 96 79" stroke="#475569" stroke-width="2" fill="none"/>
-                        <!-- Lente d'ingrandimento del sistema immunitario -->
-                        <circle cx="110" cy="85" r="18" fill="#76b9d0" fill-opacity="0.35" stroke="#0d4a3e" stroke-width="3.5"/>
-                        <line x1="123" y1="98" x2="138" y2="113" stroke="#0d4a3e" stroke-width="5" stroke-linecap="round"/>
-                    </svg>
-                `
-            },
-            2: {
-                badge: 'Passo 2 di 3 • Risposta Immunitaria',
-                title: "2. La Produzione di Scudi (Anticorpi)",
-                desc: "Una volta studiato l'identikit, il sistema immunitario costruisce degli \"scudi su misura\" chiamati anticorpi e crea una memoria difensiva che rimane pronta ad attivarsi in qualsiasi momento.",
-                svg: `
-                    <svg viewBox="0 0 180 140" class="w-44 h-36">
-                        <circle cx="90" cy="70" r="58" fill="#e6f4ef" />
-                        <!-- Cellula immunitaria sorridente -->
-                        <circle cx="65" cy="75" r="28" fill="#68b096" stroke="#0d4a3e" stroke-width="3"/>
-                        <circle cx="57" cy="70" r="3" fill="#0d4a3e"/>
-                        <circle cx="73" cy="70" r="3" fill="#0d4a3e"/>
-                        <path d="M58 80 Q65 86 72 80" stroke="#0d4a3e" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-                        <!-- Scudi / Anticorpi prodotti -->
-                        <g transform="translate(105, 35)">
-                            <path d="M15 2 L28 7 V17 C28 26 22 33 15 36 C8 33 2 26 2 17 V7 L15 2 Z" fill="#4b94b4" stroke="#0d4a3e" stroke-width="2"/>
-                            <path d="M11 19 L14 22 L20 15" stroke="#ffffff" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-                        </g>
-                        <g transform="translate(120, 78)">
-                            <path d="M12 2 L23 6 V14 C23 21 18 27 12 30 C6 27 1 21 1 14 V6 L12 2 Z" fill="#0d4a3e"/>
-                            <path d="M8 15 L11 18 L16 12" stroke="#ffffff" stroke-width="2" fill="none" stroke-linecap="round"/>
-                        </g>
-                    </svg>
-                `
-            },
-            3: {
-                badge: 'Passo 3 di 3 • Protezione Attiva',
-                title: "3. La Difesa Personale e di Gruppo",
-                desc: "Se in futuro incontri il vero virus, i tuoi anticorpi lo bloccano all'istante prima che possa farti ammalare gravemente. Inoltre, non trasmettendo il virus, proteggi anche i più fragili intorno a te!",
-                svg: `
-                    <svg viewBox="0 0 180 140" class="w-44 h-36">
-                        <circle cx="90" cy="70" r="58" fill="#dff1fa" />
-                        <!-- Grande scudo centrale -->
-                        <path d="M90 22 L130 37 V68 C130 95 112 114 90 122 C68 114 50 95 50 68 V37 L90 22 Z" fill="#0d4a3e" stroke="#76b9d0" stroke-width="4"/>
-                        <!-- Persone protette dentro lo scudo -->
-                        <circle cx="78" cy="68" r="8" fill="#fbd7c2"/>
-                        <path d="M66 92 C66 80 90 80 90 92" fill="#68b096"/>
-                        <circle cx="102" cy="72" r="7" fill="#fbd7c2"/>
-                        <path d="M92 92 C92 82 112 82 112 92" fill="#76b9d0"/>
-                        <!-- Virus respinto all'esterno -->
-                        <circle cx="32" cy="45" r="9" fill="#e11d48"/>
-                        <path d="M44 52 L52 57" stroke="#e11d48" stroke-width="2.5" stroke-linecap="round"/>
-                    </svg>
-                `
-            }
+        // Bottoni rapidi
+        window.setAnticipoPerc = function(perc) {
+            const prezzo = Math.max(0, parseFloat(numPrezzo.value) || 0);
+            const nuovoAnticipo = Math.round((prezzo * perc) / 100);
+            numAnticipo.value = nuovoAnticipo;
+            rngAnticipo.max = prezzo;
+            rngAnticipo.value = nuovoAnticipo;
+            calcolaTutto();
         };
 
-        function selectStep(stepNum) {
-            currentStep = stepNum;
-            const data = stepsData[stepNum];
-            document.getElementById('step-badge').textContent = data.badge;
-            document.getElementById('step-title').textContent = data.title;
-            document.getElementById('step-description').textContent = data.desc;
-            document.getElementById('step-svg-container').innerHTML = data.svg;
+        window.setAgenziaPerc = function(perc) {
+            const prezzo = Math.max(0, parseFloat(numPrezzo.value) || 0);
+            const nuovaAgenzia = Math.round((prezzo * perc) / 100);
+            numAgenzia.value = nuovaAgenzia;
+            calcolaTutto();
+        };
 
-            for (let i = 1; i <= 3; i++) {
-                const btn = document.getElementById(`step-btn-${i}`);
-                if (i === stepNum) {
-                    btn.classList.add('border-forest', 'bg-white', 'shadow-sm');
-                    btn.classList.remove('border-transparent', 'bg-white/60');
+        window.setAnni = function(anni) {
+            numAnni.value = anni;
+            aggiornaBottoniAnni(anni);
+            calcolaTutto();
+        };
+
+        window.setTasso = function(tasso) {
+            numTasso.value = tasso.toFixed(2);
+            rngTasso.value = tasso;
+            calcolaTutto();
+        };
+
+        function aggiornaBottoniAnni(anniSelezionati) {
+            document.querySelectorAll('.btn-anni').forEach(btn => {
+                const a = parseInt(btn.getAttribute('data-anni'));
+                if (a === anniSelezionati) {
+                    btn.className = "btn-anni py-1.5 text-xs font-semibold rounded-xl border border-blue-600 bg-blue-600 text-white shadow-sm transition";
                 } else {
-                    btn.classList.remove('border-forest', 'bg-white', 'shadow-sm');
-                    btn.classList.add('border-transparent', 'bg-white/60');
+                    btn.className = "btn-anni py-1.5 text-xs font-semibold rounded-xl border border-slate-200 bg-slate-50 hover:bg-blue-50 text-slate-700 transition";
                 }
-            }
-        }
-
-        function nextStep() {
-            const next = currentStep >= 3 ? 1 : currentStep + 1;
-            selectStep(next);
-        }
-
-        /* -----------------------------------------------------------
-           4. SWITCH TRA I 2 MINIGIOCHI
-           ----------------------------------------------------------- */
-        function switchGameTab(tab) {
-            const arcadePanel = document.getElementById('game-panel-arcade');
-            const herdPanel = document.getElementById('game-panel-herd');
-            const tabArcade = document.getElementById('tab-arcade');
-            const tabHerd = document.getElementById('tab-herd');
-
-            if (tab === 'arcade') {
-                arcadePanel.classList.remove('hidden');
-                herdPanel.classList.add('hidden');
-                tabArcade.className = 'px-4 py-2 rounded-xl font-heading font-bold text-xs sm:text-sm transition bg-forest text-white shadow-xs';
-                tabHerd.className = 'px-4 py-2 rounded-xl font-heading font-bold text-xs sm:text-sm transition text-forest hover:bg-white/60';
-                resizeCanvas();
-            } else {
-                arcadePanel.classList.add('hidden');
-                herdPanel.classList.remove('hidden');
-                tabHerd.className = 'px-4 py-2 rounded-xl font-heading font-bold text-xs sm:text-sm transition bg-forest text-white shadow-xs';
-                tabArcade.className = 'px-4 py-2 rounded-xl font-heading font-bold text-xs sm:text-sm transition text-forest hover:bg-white/60';
-                updateHerdSimulation(document.getElementById('herd-slider').value);
-            }
-        }
-
-        /* -----------------------------------------------------------
-           5. MINIGIOCO 1: "ALLENA GLI ANTICORPI!" (CANVAS INTERATTIVO)
-           ----------------------------------------------------------- */
-        const canvas = document.getElementById('vaccineCanvas');
-        const ctx = canvas.getContext('2d');
-        let viruses = [];
-        let antibodies = [];
-        let particles = [];
-        let isVaccinated = false;
-        let immunityScore = 0;
-        let neutralizedCount = 0;
-        let cellHealth = 100;
-        let gameActive = true;
-        let pointerX = 180;
-        let pointerY = 180;
-
-        function resizeCanvas() {
-            const wrapper = document.getElementById('canvas-wrapper');
-            if (!wrapper) return;
-            const rect = wrapper.getBoundingClientRect();
-            if (rect.width > 0 && rect.height > 0) {
-                canvas.width = rect.width;
-                canvas.height = rect.height;
-                pointerX = canvas.width / 2;
-                pointerY = canvas.height / 2;
-            }
-        }
-
-        function spawnVirus() {
-            if (!gameActive) return;
-            const radius = 16 + Math.random() * 6;
-            viruses.push({
-                x: radius + Math.random() * (canvas.width - radius * 2),
-                y: -25,
-                r: radius,
-                speed: isVaccinated ? (0.85 + Math.random() * 0.7) : (1.1 + Math.random() * 0.8),
-                wobble: Math.random() * Math.PI * 2
             });
         }
 
-        function createPopParticles(x, y, color) {
-            for (let i = 0; i < 8; i++) {
-                const angle = (Math.PI * 2 / 8) * i;
-                particles.push({
-                    x,
-                    y,
-                    vx: Math.cos(angle) * (2 + Math.random() * 2),
-                    vy: Math.sin(angle) * (2 + Math.random() * 2),
-                    r: 4,
-                    alpha: 1,
-                    color
-                });
-            }
-        }
-
-        function updateGameUI() {
-            document.getElementById('immunity-score-label').textContent = `${Math.min(100, immunityScore)}%`;
-            document.getElementById('immunity-progress-bar').style.width = `${Math.min(100, immunityScore)}%`;
-            document.getElementById('neutralized-count').textContent = neutralizedCount;
-            document.getElementById('cell-health-label').textContent = `${Math.max(0, cellHealth)}%`;
-
-            if (immunityScore >= 100 && gameActive) {
-                gameActive = false;
-                document.getElementById('game-victory-overlay').classList.remove('hidden');
-            }
-        }
-
-        function activateVaccineBoost() {
-            isVaccinated = true;
-            const badge = document.getElementById('vaccine-status-badge');
-            badge.textContent = 'Vaccinato (Scudi Attivi!)';
-            badge.className = 'px-2.5 py-0.5 rounded-full text-xs font-extrabold bg-emerald-100 text-forest';
-
-            const btn = document.getElementById('activate-vaccine-btn');
-            btn.innerHTML = '<i class="fas fa-check-circle"></i> <span>Difesa Vaccinale Attiva!</span>';
-            btn.classList.remove('pulse-btn');
-
-            document.getElementById('game-instruction-text').innerHTML =
-                '<strong>Vaccino attivo!</strong> Ora il tuo sistema immunitario rilascia automaticamente <strong>Anticorpi Scudo</strong> che intercettano i virus in arrivo. Muovi lo scudo o clicca per accelerare!';
-
-            // Genera subito una raffica di anticorpi alleati
-            for (let i = 0; i < 5; i++) {
-                antibodies.push({
-                    x: (canvas.width / 6) * (i + 1),
-                    y: canvas.height - 50,
-                    vy: -3.5
-                });
-            }
-        }
-
-        function resetArcadeGame() {
-            viruses = [];
-            antibodies = [];
-            particles = [];
-            isVaccinated = false;
-            immunityScore = 0;
-            neutralizedCount = 0;
-            cellHealth = 100;
-            gameActive = true;
-
-            document.getElementById('game-victory-overlay').classList.add('hidden');
-            const badge = document.getElementById('vaccine-status-badge');
-            badge.textContent = 'Non Allenato';
-            badge.className = 'px-2.5 py-0.5 rounded-full text-xs font-extrabold bg-amber-100 text-amber-800';
-
-            const btn = document.getElementById('activate-vaccine-btn');
-            btn.innerHTML = '<i class="fas fa-shield-virus text-lg"></i> <span>Attiva la Difesa Vaccinale!</span>';
-            btn.classList.add('pulse-btn');
-
-            updateGameUI();
-        }
-
-        // Gestione click e touch sul Canvas
-        function handleCanvasInteraction(clientX, clientY) {
-            const rect = canvas.getBoundingClientRect();
-            pointerX = clientX - rect.left;
-            pointerY = clientY - rect.top;
-
-            // Controlla se l'utente ha toccato direttamente un virus
-            for (let i = viruses.length - 1; i >= 0; i--) {
-                const v = viruses[i];
-                const dist = Math.hypot(pointerX - v.x, pointerY - v.y);
-                if (dist <= v.r + (isVaccinated ? 28 : 14)) {
-                    createPopParticles(v.x, v.y, '#0d4a3e');
-                    viruses.splice(i, 1);
-                    neutralizedCount++;
-                    immunityScore += isVaccinated ? 12 : 4;
-                    updateGameUI();
-                }
-            }
-        }
-
-        canvas.addEventListener('mousedown', (e) => handleCanvasInteraction(e.clientX, e.clientY));
-        canvas.addEventListener('mousemove', (e) => {
-            const rect = canvas.getBoundingClientRect();
-            pointerX = e.clientX - rect.left;
-            pointerY = e.clientY - rect.top;
-            if (isVaccinated) {
-                handleCanvasInteraction(e.clientX, e.clientY);
-            }
+        // Pulsante Reset
+        document.getElementById('btnReset').addEventListener('click', () => {
+            numPrezzo.value = 200000; rngPrezzo.value = 200000;
+            rngAnticipo.max = 200000;
+            numAnticipo.value = 40000; rngAnticipo.value = 40000;
+            numArredo.value = 15000; rngArredo.value = 15000;
+            numAgenzia.value = 6000;
+            numNotaio.value = 5500; rngNotaio.value = 5500;
+            numReddito.value = 2500; rngReddito.value = 2500;
+            numAnni.value = 25; aggiornaBottoniAnni(25);
+            numTasso.value = "3.20"; rngTasso.value = 3.20;
+            calcolaTutto();
         });
-        canvas.addEventListener('touchstart', (e) => {
-            if (e.touches.length > 0) {
-                handleCanvasInteraction(e.touches[0].clientX, e.touches[0].clientY);
-            }
-        }, { passive: true });
-        canvas.addEventListener('touchmove', (e) => {
-            if (e.touches.length > 0) {
-                handleCanvasInteraction(e.touches[0].clientX, e.touches[0].clientY);
-            }
-        }, { passive: true });
 
-        // Loop di animazione principale del Canvas
-        let frameCount = 0;
-        function animateCanvasLoop() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            frameCount++;
-
-            if (gameActive) {
-                // Frequenza comparsa virus
-                if (frameCount % 55 === 0 && viruses.length < 7) {
-                    spawnVirus();
-                }
-
-                // Se vaccinato, genera anticorpi automatici dal basso
-                if (isVaccinated && frameCount % 22 === 0 && viruses.length > 0) {
-                    const targetVirus = viruses[0];
-                    antibodies.push({
-                        x: pointerX,
-                        y: canvas.height - 42,
-                        tx: targetVirus.x,
-                        ty: targetVirus.y,
-                        speed: 4.8
-                    });
-                }
+        // Funzione Principale di Calcolo e Aggiornamento UI
+        function calcolaTutto() {
+            const prezzo = Math.max(0, parseFloat(numPrezzo.value) || 0);
+            let anticipo = Math.max(0, parseFloat(numAnticipo.value) || 0);
+            if (anticipo > prezzo) {
+                anticipo = prezzo;
             }
 
-            // 1. Disegna le cellule sane protette sul fondo
-            const cellCount = 6;
-            const cellWidth = canvas.width / cellCount;
-            for (let i = 0; i < cellCount; i++) {
-                const cx = i * cellWidth + cellWidth / 2;
-                const cy = canvas.height - 16;
-                ctx.beginPath();
-                ctx.arc(cx, cy, 22, Math.PI, 0);
-                ctx.fillStyle = '#68b096';
-                ctx.fill();
-                ctx.strokeStyle = '#0d4a3e';
-                ctx.lineWidth = 2;
-                ctx.stroke();
+            const arredo = Math.max(0, parseFloat(numArredo.value) || 0);
+            const agenzia = Math.max(0, parseFloat(numAgenzia.value) || 0);
+            const notaio = Math.max(0, parseFloat(numNotaio.value) || 0);
+            const reddito = Math.max(1, parseFloat(numReddito.value) || 1);
+            const anni = Math.min(40, Math.max(1, parseInt(numAnni.value) || 25));
+            const tasso = Math.max(0, parseFloat(numTasso.value) || 0);
 
-                // Nucleo cellula
-                ctx.beginPath();
-                ctx.arc(cx, cy - 6, 5, 0, Math.PI * 2);
-                ctx.fillStyle = '#0d4a3e';
-                ctx.fill();
-            }
+            // 1. Calcoli Base
+            const speseExtra = arredo + agenzia + notaio;
+            const costoTotaleOperazione = prezzo + speseExtra;
+            const importoMutuo = Math.max(0, prezzo - anticipo);
+            const liquiditaSubito = anticipo + speseExtra;
 
-            // 2. Aggiorna e disegna gli Anticorpi (Y-shaped shields)
-            for (let i = antibodies.length - 1; i >= 0; i--) {
-                const ab = antibodies[i];
-                if (viruses.length > 0) {
-                    const v = viruses[0];
-                    const angle = Math.atan2(v.y - ab.y, v.x - ab.x);
-                    ab.x += Math.cos(angle) * 5;
-                    ab.y += Math.sin(angle) * 5;
-                } else {
-                    ab.y -= 4;
-                }
+            const percAnticipo = prezzo > 0 ? (anticipo / prezzo) * 100 : 0;
+            const ltv = prezzo > 0 ? (importoMutuo / prezzo) * 100 : 0;
+            const percAgenzia = prezzo > 0 ? (agenzia / prezzo) * 100 : 0;
+            const percIncidenzaExtra = prezzo > 0 ? (speseExtra / prezzo) * 100 : 0;
 
-                // Disegna icona anticorpo azzurro/verde
-                ctx.save();
-                ctx.translate(ab.x, ab.y);
-                ctx.strokeStyle = '#0d4a3e';
-                ctx.lineWidth = 3;
-                ctx.beginPath();
-                ctx.moveTo(0, 8);
-                ctx.lineTo(0, 0);
-                ctx.lineTo(-6, -6);
-                ctx.moveTo(0, 0);
-                ctx.lineTo(6, -6);
-                ctx.stroke();
-                ctx.restore();
+            // 2. Calcolo Mutuo
+            const rataMensile = calcolaRataMutuo(importoMutuo, tasso, anni);
+            const nRate = anni * 12;
+            const totaleRimborsatoBanca = rataMensile * nRate;
+            const interessiTotali = Math.max(0, totaleRimborsatoBanca - importoMutuo);
+            const costoTotaleConInteressi = costoTotaleOperazione + interessiTotali;
 
-                // Collisione anticorpo - virus
-                for (let j = viruses.length - 1; j >= 0; j--) {
-                    const v = viruses[j];
-                    if (Math.hypot(ab.x - v.x, ab.y - v.y) < v.r + 10) {
-                        createPopParticles(v.x, v.y, '#3b84a8');
-                        viruses.splice(j, 1);
-                        antibodies.splice(i, 1);
-                        neutralizedCount++;
-                        immunityScore += 10;
-                        updateGameUI();
-                        break;
-                    }
-                }
+            // 3. Indicatori di Rischio
+            const rapportoRataReddito = (rataMensile / reddito) * 100;
+            const redditoResiduo = reddito - rataMensile;
 
-                if (ab && ab.y < -10) antibodies.splice(i, 1);
-            }
+            // Aggiornamento Badge Input
+            badgeAnticipoPerc.textContent = `${percAnticipo.toFixed(1)}% del prezzo immobile`;
+            badgeAgenziaPerc.textContent = `Pari al ${percAgenzia.toFixed(1)}% del prezzo`;
 
-            // 3. Aggiorna e disegna i Virus
-            for (let i = viruses.length - 1; i >= 0; i--) {
-                const v = viruses[i];
-                if (gameActive) {
-                    v.y += v.speed;
-                    v.wobble += 0.05;
-                    v.x += Math.sin(v.wobble) * 0.6;
-                }
+            // Aggiornamento 4 Card Principali
+            document.getElementById('valRataPrincipale').textContent = fmtEuroDecimal.format(rataMensile);
+            document.getElementById('valTassoAnniLabel').textContent = `Tasso Fisso ${tasso.toFixed(2).replace('.', ',')}% • ${anni} anni`;
 
-                // Disegna particella virale con "spikes"
-                ctx.save();
-                ctx.translate(v.x, v.y);
-                ctx.strokeStyle = '#be123c';
-                ctx.lineWidth = 2.5;
-                for (let s = 0; s < 8; s++) {
-                    const a = (Math.PI * 2 / 8) * s;
-                    ctx.beginPath();
-                    ctx.moveTo(0, 0);
-                    ctx.lineTo(Math.cos(a) * (v.r + 5), Math.sin(a) * (v.r + 5));
-                    ctx.stroke();
-                }
-                ctx.beginPath();
-                ctx.arc(0, 0, v.r, 0, Math.PI * 2);
-                ctx.fillStyle = '#f43f5e';
-                ctx.fill();
-                ctx.strokeStyle = '#9f1239';
-                ctx.lineWidth = 2;
-                ctx.stroke();
+            document.getElementById('valCostoTotaleOp').textContent = fmtEuro.format(costoTotaleOperazione);
+            document.getElementById('valIncidenzaExtra').textContent = `+${fmtEuro.format(speseExtra)} (+${percIncidenzaExtra.toFixed(1)}%)`;
 
-                // Occhietti del virus
-                ctx.fillStyle = '#ffffff';
-                ctx.beginPath();
-                ctx.arc(-4, -2, 2.5, 0, Math.PI * 2);
-                ctx.arc(4, -2, 2.5, 0, Math.PI * 2);
-                ctx.fill();
-                ctx.restore();
+            document.getElementById('valLiquiditaSubito').textContent = fmtEuro.format(liquiditaSubito);
+            document.getElementById('valDettaglioLiquidita').textContent = `${fmtEuro.format(anticipo)} ant. + ${fmtEuro.format(speseExtra)} spese`;
 
-                // Se tocca le cellule sul fondo
-                if (v.y > canvas.height - 32) {
-                    createPopParticles(v.x, v.y, '#f43f5e');
-                    viruses.splice(i, 1);
-                    if (!isVaccinated) {
-                        cellHealth = Math.max(20, cellHealth - 8);
-                    }
-                    updateGameUI();
-                }
-            }
+            document.getElementById('valImportoMutuo').textContent = fmtEuro.format(importoMutuo);
+            document.getElementById('valLtvCard').textContent = `LTV: ${ltv.toFixed(1)}% del valore casa`;
 
-            // 4. Disegna particelle di esplosione/neutralizzazione
-            for (let i = particles.length - 1; i >= 0; i--) {
-                const p = particles[i];
-                p.x += p.vx;
-                p.y += p.vy;
-                p.alpha -= 0.04;
-                if (p.alpha <= 0) {
-                    particles.splice(i, 1);
-                    continue;
-                }
-                ctx.save();
-                ctx.globalAlpha = p.alpha;
-                ctx.fillStyle = p.color;
-                ctx.beginPath();
-                ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-                ctx.fill();
-                ctx.restore();
-            }
+            document.getElementById('valInteressiTotali').textContent = fmtEuro.format(interessiTotali);
+            document.getElementById('valNumeroRate').textContent = `Spalmati su ${nRate} rate mensili`;
+            document.getElementById('valTotaleRimborsato').textContent = fmtEuro.format(totaleRimborsatoBanca);
 
-            // 5. Disegna lo scudo del giocatore attorno al puntatore quando il vaccino è attivo
-            if (isVaccinated && gameActive) {
-                ctx.save();
-                ctx.beginPath();
-                ctx.arc(pointerX, pointerY, 26, 0, Math.PI * 2);
-                ctx.fillStyle = 'rgba(13, 74, 62, 0.15)';
-                ctx.fill();
-                ctx.strokeStyle = '#0d4a3e';
-                ctx.lineWidth = 2.5;
-                ctx.stroke();
-                ctx.restore();
-            }
+            // Aggiornamento Semaforo 1: Rapporto Rata / Reddito
+            document.getElementById('valPercRataReddito').textContent = `${rapportoRataReddito.toFixed(1)}%`;
+            document.getElementById('valRedditoResiduo').textContent = redditoResiduo >= 0 
+                ? `Restano ${fmtEuro.format(redditoResiduo)} / mese per vivere`
+                : `Deficit mensile di ${fmtEuro.format(Math.abs(redditoResiduo))}`;
 
-            requestAnimationFrame(animateCanvasLoop);
-        }
+            const posMarkerRata = Math.min(100, Math.max(0, (rapportoRataReddito / 60) * 100));
+            document.getElementById('markerRataReddito').style.left = `calc(${posMarkerRata}% - 3px)`;
 
-        /* -----------------------------------------------------------
-           6. MINIGIOCO 2: SIMULATORE "EFFETTO SCUDO DI COMUNITÀ"
-           ----------------------------------------------------------- */
-        const totalPeople = 24;
-        let communityState = [];
+            const badgeStatoRata = document.getElementById('badgeStatoRata');
+            const msgAnalisiRata = document.getElementById('msgAnalisiRata');
+            let statoRata = 'verde'; // verde, giallo, rosso
 
-        function updateHerdSimulation(percentStr) {
-            const pct = parseInt(percentStr, 10);
-            document.getElementById('herd-percentage-label').textContent = `${pct}%`;
-
-            const grid = document.getElementById('herd-grid');
-            grid.innerHTML = '';
-            communityState = [];
-
-            const numFragile = 4; // 4 persone fragili (anziani/immunodepressi) al centro
-            const numVaccinated = Math.round(((totalPeople - numFragile) * pct) / 100);
-
-            for (let i = 0; i < totalPeople; i++) {
-                let role = 'unvaccinated';
-                if (i === 8 || i === 9 || i === 14 || i === 15) {
-                    role = 'fragile';
-                }
-                communityState.push({ id: i, role, infected: false });
-            }
-
-            // Assegna lo stato vaccinato attorno ai fragili
-            let assigned = 0;
-            for (let i = 0; i < totalPeople && assigned < numVaccinated; i++) {
-                if (communityState[i].role !== 'fragile') {
-                    communityState[i].role = 'vaccinated';
-                    assigned++;
-                }
-            }
-
-            renderHerdGrid();
-            const banner = document.getElementById('herd-result-banner');
-            banner.className = 'mt-4 p-3 rounded-xl bg-white border border-sky/30 text-center text-xs sm:text-sm font-bold text-forest';
-            banner.innerHTML = `Con il <strong>${pct}%</strong> di vaccinati, premi <strong>"Simula arrivo del Virus"</strong> per verificare se le 4 persone fragili al centro restano protette.`;
-        }
-
-        function renderHerdGrid() {
-            const grid = document.getElementById('herd-grid');
-            grid.innerHTML = '';
-
-            communityState.forEach((person) => {
-                const div = document.createElement('div');
-                let bg = 'bg-sky-400 text-white';
-                let icon = 'fa-user';
-                let label = 'Suscettibile';
-
-                if (person.infected) {
-                    bg = 'bg-rose-500 text-white animate-bounce';
-                    icon = 'fa-virus';
-                    label = 'Contagiato';
-                } else if (person.role === 'vaccinated') {
-                    bg = 'bg-forest text-white shadow-xs';
-                    icon = 'fa-user-shield';
-                    label = 'Protetto';
-                } else if (person.role === 'fragile') {
-                    bg = 'bg-amber-500 text-white ring-4 ring-amber-200';
-                    icon = 'fa-person-cane';
-                    label = 'Fragile';
-                }
-
-                div.className = `w-11 h-11 sm:w-12 sm:h-12 rounded-2xl ${bg} flex items-center justify-center transition-all duration-300`;
-                div.title = label;
-                div.innerHTML = `<i class="fas ${icon} text-base sm:text-lg"></i>`;
-                grid.appendChild(div);
-            });
-        }
-
-        function runHerdContagionTest() {
-            const pct = parseInt(document.getElementById('herd-slider').value, 10);
-            // Reset infezioni precedenti
-            communityState.forEach(p => p.infected = false);
-
-            // Se la copertura vaccinale è alta (>= 75%), i vaccinati bloccano le catene di trasmissione
-            let fragileInfected = 0;
-            communityState.forEach((p) => {
-                if (p.role === 'unvaccinated') {
-                    if (pct < 80 || Math.random() > 0.65) {
-                        p.infected = true;
-                    }
-                } else if (p.role === 'fragile') {
-                    // I fragili vengono raggiunti solo se la copertura intorno a loro è bassa
-                    if (pct <= 40) {
-                        p.infected = true;
-                        fragileInfected++;
-                    } else if (pct <= 60 && Math.random() > 0.5) {
-                        p.infected = true;
-                        fragileInfected++;
-                    }
-                }
-            });
-
-            renderHerdGrid();
-
-            const banner = document.getElementById('herd-result-banner');
-            if (fragileInfected === 0) {
-                banner.className = 'mt-4 p-3 rounded-xl bg-emerald-50 border border-emerald-300 text-center text-xs sm:text-sm font-bold text-forest';
-                banner.innerHTML = `🛡️ <strong>Effetto Scudo Riuscito!</strong> Grazie al ${pct}% di vaccinati, il virus ha trovato la strada sbarrata e <strong>nessuna persona fragile</strong> è stata contagiata!`;
+            if (importoMutuo === 0) {
+                badgeStatoRata.textContent = "Nessun Mutuo (0%)";
+                badgeStatoRata.className = "text-xs font-bold px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 border border-emerald-300";
+                msgAnalisiRata.innerHTML = `<strong class="text-emerald-700">Acquisto in contanti:</strong> Non richiedendo alcun mutuo, il tuo stipendio mensile resta interamente libero.`;
+            } else if (rapportoRataReddito <= 30) {
+                statoRata = 'verde';
+                badgeStatoRata.textContent = `Sostenibile (${rapportoRataReddito.toFixed(1)}%)`;
+                badgeStatoRata.className = "text-xs font-bold px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 border border-emerald-300";
+                msgAnalisiRata.innerHTML = `<strong class="text-emerald-700">Parametro Bancario Rispettato:</strong> La rata assorbe il <strong>${rapportoRataReddito.toFixed(1)}%</strong> del tuo reddito (sotto la soglia prudenziale del 30%). La banca valuterà positivamente la tua capacità di rimborso.`;
+            } else if (rapportoRataReddito <= 35) {
+                statoRata = 'giallo';
+                badgeStatoRata.textContent = `Al Limite (${rapportoRataReddito.toFixed(1)}%)`;
+                badgeStatoRata.className = "text-xs font-bold px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-800 border border-amber-300";
+                msgAnalisiRata.innerHTML = `<strong class="text-amber-700">Attenzione - Zona Grigia (30% - 35%):</strong> La rata di <strong>${fmtEuro.format(rataMensile)}</strong> supera la soglia standard del 30%, ma rientra nel limite massimo (~33-35%) tollerato da alcuni istituti se non hai altri finanziamenti in corso e hai un contratto stabile.`;
             } else {
-                banner.className = 'mt-4 p-3 rounded-xl bg-rose-50 border border-rose-300 text-center text-xs sm:text-sm font-bold text-rose-900';
-                banner.innerHTML = `⚠️ Con solo il ${pct}% di vaccinati, il virus circola facilmente e ha raggiunto <strong>${fragileInfected} persone fragili</strong>. Aumenta lo slider almeno all'80%!`;
+                statoRata = 'rosso';
+                badgeStatoRata.textContent = `Critico / Eccessivo (${rapportoRataReddito.toFixed(1)}%)`;
+                badgeStatoRata.className = "text-xs font-bold px-2.5 py-0.5 rounded-full bg-rose-100 text-rose-800 border border-rose-300";
+                msgAnalisiRata.innerHTML = `<strong class="text-rose-700">Criticità Grave - Superamento Soglia:</strong> La rata assorbe il <strong>${rapportoRataReddito.toFixed(1)}%</strong> dello stipendio. In Italia le banche bloccano quasi automaticamente le pratiche che superano il 33-35% del reddito netto per tutelare la sussistenza minima.`;
             }
+
+            // Aggiornamento Semaforo 2: LTV (Loan-to-Value)
+            document.getElementById('valPercLtv').textContent = `${ltv.toFixed(1)}%`;
+            document.getElementById('valAnticipoPercSub').textContent = `Anticipo versato: ${percAnticipo.toFixed(1)}%`;
+            const posMarkerLtv = Math.min(100, Math.max(0, ltv));
+            document.getElementById('markerLtv').style.left = `calc(${posMarkerLtv}% - 3px)`;
+
+            const badgeStatoLtv = document.getElementById('badgeStatoLtv');
+            const msgAnalisiLtv = document.getElementById('msgAnalisiLtv');
+            let statoLtv = 'verde';
+
+            if (ltv <= 80) {
+                statoLtv = 'verde';
+                badgeStatoLtv.textContent = `Conforme (${ltv.toFixed(1)}%)`;
+                badgeStatoLtv.className = "text-xs font-bold px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 border border-emerald-300";
+                msgAnalisiLtv.innerHTML = `<strong class="text-emerald-700">Soglia 80% Rispettata:</strong> Stai chiedendo il <strong>${ltv.toFixed(1)}%</strong> del valore dell'immobile (anticipo del ${percAnticipo.toFixed(1)}%). Rientri nel mutuo fondiario standard con accesso ai migliori tassi di interesse senza necessità di garanzie integrative.`;
+            } else {
+                statoLtv = 'giallo';
+                badgeStatoLtv.textContent = `Oltre Soglia 80% (${ltv.toFixed(1)}%)`;
+                badgeStatoLtv.className = "text-xs font-bold px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-800 border border-amber-300";
+                const anticipoMancante80 = Math.max(0, importoMutuo - (prezzo * 0.80));
+                msgAnalisiLtv.innerHTML = `<strong class="text-amber-700">Superamento Limite Fondiario dell'80%:</strong> Chiedere il <strong>${ltv.toFixed(1)}%</strong> richiede un "Mutuo 95-100%" (spesso vincolato al Fondo Garanzia Prima Casa Consap / Under 36) e comporta tassi TAN più alti (+0,30% / +0,60%). Per scendere all'80% ti servono altri <strong>${fmtEuro.format(anticipoMancante80)}</strong> di anticipo.`;
+            }
+
+            // Aggiornamento Banner Verdetto Generale
+            const bannerVerdetto = document.getElementById('bannerVerdetto');
+            const iconaVerdettoBox = document.getElementById('iconaVerdettoBox');
+            const iconaVerdetto = document.getElementById('iconaVerdetto');
+            const tagVerdetto = document.getElementById('tagVerdetto');
+            const titoloVerdetto = document.getElementById('titoloVerdetto');
+            const descVerdetto = document.getElementById('descVerdetto');
+
+            if (statoRata === 'rosso') {
+                bannerVerdetto.className = "rounded-2xl p-6 border-2 transition-all duration-300 shadow-sm bg-rose-50 border-rose-300";
+                iconaVerdettoBox.className = "p-3.5 rounded-2xl bg-rose-600 text-white shrink-0 shadow-md";
+                iconaVerdetto.className = "ph-fill ph-warning-octagon text-3xl";
+                tagVerdetto.className = "text-xs font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-rose-200 text-rose-900";
+                tagVerdetto.textContent = "Mutuo Problematico • Rischio Rifiuto";
+                titoloVerdetto.textContent = "Rata troppo alta rispetto allo stipendio mensile";
+                descVerdetto.textContent = `La rata di ${fmtEuro.format(rataMensile)} impegna il ${rapportoRataReddito.toFixed(1)}% del tuo reddito netto, superando il tetto massimo (~33-35%) consentito dalle politiche di credito bancarie.`;
+            } else if (statoRata === 'giallo' || statoLtv === 'giallo') {
+                bannerVerdetto.className = "rounded-2xl p-6 border-2 transition-all duration-300 shadow-sm bg-amber-50 border-amber-300";
+                iconaVerdettoBox.className = "p-3.5 rounded-2xl bg-amber-500 text-white shrink-0 shadow-md";
+                iconaVerdetto.className = "ph-fill ph-warning text-3xl";
+                tagVerdetto.className = "text-xs font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-amber-200 text-amber-900";
+                tagVerdetto.textContent = "Fattibilità con Riserva";
+                titoloVerdetto.textContent = "Operazione al limite dei parametri standard";
+                descVerdetto.textContent = statoRata === 'giallo' && statoLtv === 'giallo'
+                    ? "Sia il rapporto rata/stipendio sia la percentuale di mutuo (LTV > 80%) richiedono una delibera speciale o garanzie aggiuntive."
+                    : (statoRata === 'giallo' 
+                        ? `La rata è tra il 30% e il 35% dello stipendio: fattibile solo se non hai altri prestiti attivi.`
+                        : `La rata è sostenibile, ma chiedi più dell'80% del valore dell'immobile (LTV ${ltv.toFixed(1)}%).`);
+            } else {
+                bannerVerdetto.className = "rounded-2xl p-6 border-2 transition-all duration-300 shadow-sm bg-emerald-50 border-emerald-300";
+                iconaVerdettoBox.className = "p-3.5 rounded-2xl bg-emerald-600 text-white shrink-0 shadow-md";
+                iconaVerdetto.className = "ph-fill ph-check-circle text-3xl";
+                tagVerdetto.className = "text-xs font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-emerald-200 text-emerald-900";
+                tagVerdetto.textContent = "Operazione Sostenibile";
+                titoloVerdetto.textContent = "Mutuo in linea con gli standard bancari";
+                descVerdetto.textContent = `Rata sostenibile (${rapportoRataReddito.toFixed(1)}% del reddito) e LTV nei limiti (${ltv.toFixed(1)}%). Ricorda di disporre di ${fmtEuro.format(liquiditaSubito)} di liquidità immediata.`;
+            }
+
+            // Generazione Consigli Pratici Dinamici
+            const listaConsigli = document.getElementById('listaConsigli');
+            const consigliHTML = [];
+
+            const rataMax30 = reddito * 0.30;
+            const capitaleMax30 = calcolaCapitaleMaxDaRata(rataMax30, tasso, anni);
+
+            if (rapportoRataReddito > 30) {
+                const anticipoExtraPer30 = Math.max(0, importoMutuo - capitaleMax30);
+                consigliHTML.push(`<li><strong>Per portare la rata sotto il 30% (${fmtEuro.format(rataMax30)}/mese):</strong> il mutuo massimo sostenibile a ${anni} anni è di <strong>${fmtEuro.format(capitaleMax30)}</strong>. Dovresti aumentare l'anticipo di <strong>+${fmtEuro.format(anticipoExtraPer30)}</strong> oppure cercare un immobile intorno a <strong>${fmtEuro.format(capitaleMax30 + anticipo)}</strong>.</li>`);
+                
+                if (anni < 30) {
+                    const rataA30Anni = calcolaRataMutuo(importoMutuo, tasso, 30);
+                    const percA30Anni = (rataA30Anni / reddito) * 100;
+                    consigliHTML.push(`<li><strong>Allungamento durata a 30 anni:</strong> passando da ${anni} a 30 anni, la rata scenderebbe a <strong>${fmtEuro.format(rataA30Anni)}/mese</strong> (${percA30Anni.toFixed(1)}% dello stipendio).</li>`);
+                }
+
+                const redditoNecessario = rataMensile / 0.30;
+                consigliHTML.push(`<li><strong>Cointestazione o Garante:</strong> per sostenere una rata di ${fmtEuro.format(rataMensile)} senza criticità serve un reddito netto complessivo di almeno <strong>${fmtEuro.format(redditoNecessario)}/mese</strong>.</li>`);
+            } else {
+                const margineRata = rataMax30 - rataMensile;
+                consigliHTML.push(`<li><strong>Ottimo margine reddituale:</strong> la tua rata è inferiore di <strong>${fmtEuro.format(margineRata)}/mese</strong> rispetto alla soglia massima prudenziale del 30% (${fmtEuro.format(rataMax30)}).</li>`);
+                if (anni > 15) {
+                    const rataMeno5Anni = calcolaRataMutuo(importoMutuo, tasso, anni - 5);
+                    const percMeno5 = (rataMeno5Anni / reddito) * 100;
+                    if (percMeno5 <= 32) {
+                        const interessiMeno5 = (rataMeno5Anni * (anni - 5) * 12) - importoMutuo;
+                        const risparmioInteressi = Math.max(0, interessiTotali - interessiMeno5);
+                        consigliHTML.push(`<li><strong>Opportunità di risparmio interessi:</strong> riducendo la durata a <strong>${anni - 5} anni</strong> la rata salirebbe a ${fmtEuro.format(rataMeno5Anni)} (${percMeno5.toFixed(1)}% del reddito), ma risparmieresti <strong>${fmtEuro.format(risparmioInteressi)}</strong> di interessi!</li>`);
+                    }
+                }
+            }
+
+            if (ltv > 80) {
+                const anticipoTarget20 = prezzo * 0.20;
+                const diffAnticipo = anticipoTarget20 - anticipo;
+                consigliHTML.push(`<li><strong>Rientro nella soglia LTV 80%:</strong> versando un anticipo totale di <strong>${fmtEuro.format(anticipoTarget20)}</strong> (+${fmtEuro.format(diffAnticipo)} rispetto ad ora), eviterai i mutui ad alto LTV e otterrai tassi TAN più vantaggiosi.</li>`);
+            }
+
+            consigliHTML.push(`<li><strong>Verifica liquidità immediata:</strong> assicurati di avere <strong>${fmtEuro.format(liquiditaSubito)}</strong> disponibili tra risparmi e investimenti smobilizzabili prima del rogito (più un piccolo fondo imprevisti).</li>`);
+
+            listaConsigli.innerHTML = consigliHTML.join('');
+
+            // Aggiornamento Barra e Tabella Prospetto Contabile
+            document.getElementById('lblTotaleBarra').textContent = fmtEuro.format(costoTotaleOperazione);
+            if (costoTotaleOperazione > 0) {
+                const pMutuo = (importoMutuo / costoTotaleOperazione) * 100;
+                const pAnticipo = (anticipo / costoTotaleOperazione) * 100;
+                const pArredo = (arredo / costoTotaleOperazione) * 100;
+                const pAccessori = ((agenzia + notaio) / costoTotaleOperazione) * 100;
+
+                document.getElementById('barQuotaMutuo').style.width = `${pMutuo}%`;
+                document.getElementById('barQuotaAnticipo').style.width = `${pAnticipo}%`;
+                document.getElementById('barQuotaArredo').style.width = `${pArredo}%`;
+                document.getElementById('barQuotaAccessori').style.width = `${pAccessori}%`;
+
+                document.getElementById('legMutuo').textContent = `${pMutuo.toFixed(1)}%`;
+                document.getElementById('legAnticipo').textContent = `${pAnticipo.toFixed(1)}%`;
+                document.getElementById('legArredo').textContent = `${pArredo.toFixed(1)}%`;
+                document.getElementById('legAccessori').textContent = `${pAccessori.toFixed(1)}%`;
+            }
+
+            document.getElementById('tabPrezzo').textContent = fmtEuro.format(prezzo);
+            document.getElementById('tabAnticipo').textContent = `- ${fmtEuro.format(anticipo)}`;
+            document.getElementById('tabMutuo').textContent = fmtEuro.format(importoMutuo);
+            document.getElementById('tabArredo').textContent = fmtEuro.format(arredo);
+            document.getElementById('tabAgenzia').textContent = fmtEuro.format(agenzia);
+            document.getElementById('tabNotaio').textContent = fmtEuro.format(notaio);
+            document.getElementById('tabTotaleOperazione').textContent = fmtEuro.format(costoTotaleOperazione);
+            document.getElementById('tabTotaleConInteressi').textContent = fmtEuro.format(costoTotaleConInteressi);
         }
 
-        /* -----------------------------------------------------------
-           INIZIALIZZAZIONE AL CARICAMENTO DELLA PAGINA
-           ----------------------------------------------------------- */
+        // Inizializzazione al caricamento
         window.onload = function() {
-            selectStep(1);
-            resizeCanvas();
-            window.addEventListener('resize', resizeCanvas);
-            spawnVirus();
-            animateCanvasLoop();
-            updateHerdSimulation(30);
+            aggiornaLimitiAnticipo();
+            calcolaTutto();
         };
     </script>
 </body>
